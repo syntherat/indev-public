@@ -10,7 +10,7 @@ import {
   Compass,
   FolderOpen,
   Github,
-  House,
+  Home,
   Linkedin,
   Link2,
   ListChecks,
@@ -96,7 +96,7 @@ const moreQuickLinks = [
 ];
 
 const mobilePageLinks = [
-  { id: "home", label: "Home", href: "/", icon: House },
+  { id: "home", label: "Home", href: "/", icon: Home },
   { id: "about", label: "About", href: "/profile", icon: User },
   { id: "projects", label: "Projects", href: "/products", icon: FolderOpen },
   { id: "blog", label: "Blog", href: "/blog", icon: FileText },

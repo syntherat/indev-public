@@ -524,9 +524,19 @@ const defaultProducts = [
 ];
 
 async function fetchJson(url) {
-  const response = await fetch(url, {
-    next: { revalidate: 30 },
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+  let response;
+
+  try {
+    response = await fetch(url, {
+      next: { revalidate: 30 },
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!response.ok) {
     throw new Error(`Failed request: ${response.status} ${response.statusText}`);
