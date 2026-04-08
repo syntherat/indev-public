@@ -1,11 +1,33 @@
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/lib/productsApi";
+import { getProductBySlug, getProductsCatalog } from "@/lib/productsApi";
 import ProductMediaGallery from "@/components/ProductMediaGallery";
 import ProductFaqAccordion from "@/components/ProductFaqAccordion";
 import ProductDetailPurchaseActions from "@/components/products/ProductDetailPurchaseActions";
 import ProductReviewsSection from "@/components/products/ProductReviewsSection";
 
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  const { products = [] } = await getProductsCatalog();
+  const slugs = new Set();
+
+  for (const product of products) {
+    const slug = String(product?.slug || "").trim();
+    if (slug) {
+      slugs.add(slug);
+      continue;
+    }
+
+    const hrefSlug = String(product?.href || "")
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+    if (hrefSlug) {
+      slugs.add(hrefSlug);
+    }
+  }
+
+  return Array.from(slugs).map((slug) => ({ slug }));
+}
 
 function normalizeSpecItems(items) {
   if (!Array.isArray(items)) {

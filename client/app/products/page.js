@@ -1,8 +1,6 @@
 import { getProductsCatalog } from "@/lib/productsApi";
 import PurchaseAwareProductsGrid from "@/components/products/PurchaseAwareProductsGrid";
 
-export const dynamic = "force-dynamic";
-
 export default async function ProductsPage({ searchParams }) {
   const q = typeof searchParams?.q === "string" ? searchParams.q : "";
   const category = typeof searchParams?.category === "string" ? searchParams.category : "";
