@@ -1,10 +1,10 @@
 import { getProductsCatalog } from "@/lib/productsApi";
 import PurchaseAwareProductsGrid from "@/components/products/PurchaseAwareProductsGrid";
 
-export default async function ProductsPage({ searchParams }) {
-  const q = typeof searchParams?.q === "string" ? searchParams.q : "";
-  const category = typeof searchParams?.category === "string" ? searchParams.category : "";
-  const sort = typeof searchParams?.sort === "string" ? searchParams.sort : "featured";
+export default async function ProductsPage() {
+  const q = "";
+  const category = "";
+  const sort = "featured";
 
   const { products, categories } = await getProductsCatalog({ q, category });
 
