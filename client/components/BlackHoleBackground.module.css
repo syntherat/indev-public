@@ -1,0 +1,170 @@
+.container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(27, 18, 59, 0.35), rgba(2, 2, 8, 0.92) 36%, rgba(2, 2, 8, 1) 70%),
+    linear-gradient(180deg, #04040d 0%, #020208 100%);
+  z-index: 0;
+}
+
+.starCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(0.2px);
+}
+
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transform-origin: center;
+  mix-blend-mode: normal;
+  will-change: transform, opacity;
+}
+
+.ring::before,
+.ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: normal;
+}
+
+.innerRing {
+  width: min(25vmin, 260px);
+  aspect-ratio: 1;
+  --thickness: max(8px, 0.9vmin);
+  background: conic-gradient(
+    from 212deg,
+    rgba(122, 96, 255, 0) 0deg,
+    rgba(176, 132, 255, 0.52) 48deg,
+    rgba(122, 96, 255, 0.06) 88deg,
+    rgba(104, 174, 255, 0.56) 152deg,
+    rgba(122, 96, 255, 0.05) 206deg,
+    rgba(166, 124, 255, 0.46) 272deg,
+    rgba(122, 96, 255, 0) 328deg,
+    rgba(122, 96, 255, 0) 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), #000 calc(100% - var(--thickness)), transparent 100%);
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), #000 calc(100% - var(--thickness)), transparent 100%);
+  filter: blur(24px) saturate(1.25);
+  box-shadow:
+    0 0 36px rgba(160, 120, 255, 0.34),
+    0 0 70px rgba(102, 156, 255, 0.22);
+  opacity: 0.74;
+  animation:
+    spinInner 11.2s linear infinite,
+    breatheInner 4.8s ease-in-out infinite;
+}
+
+.innerRing::before {
+  background: conic-gradient(
+    from 160deg,
+    rgba(150, 112, 255, 0) 0deg,
+    rgba(188, 138, 255, 0.44) 64deg,
+    rgba(114, 185, 255, 0.36) 152deg,
+    rgba(150, 112, 255, 0.08) 236deg,
+    rgba(150, 112, 255, 0) 312deg,
+    rgba(150, 112, 255, 0) 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness) + 3px), #000 calc(100% - var(--thickness) + 3px), transparent 100%);
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness) + 3px), #000 calc(100% - var(--thickness) + 3px), transparent 100%);
+  filter: blur(34px);
+  opacity: 0.56;
+  animation: layerWobbleInner 6.2s ease-in-out infinite;
+}
+
+.innerRing::after {
+  background: conic-gradient(
+    from 260deg,
+    rgba(132, 98, 255, 0) 0deg,
+    rgba(170, 126, 255, 0.34) 78deg,
+    rgba(108, 174, 255, 0.3) 146deg,
+    rgba(132, 98, 255, 0.08) 212deg,
+    rgba(132, 98, 255, 0) 288deg,
+    rgba(132, 98, 255, 0) 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness) + 6px), #000 calc(100% - var(--thickness) + 6px), transparent 100%);
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness) + 6px), #000 calc(100% - var(--thickness) + 6px), transparent 100%);
+  filter: blur(42px);
+  opacity: 0.44;
+  animation: layerWobbleInner 7.8s ease-in-out infinite reverse;
+}
+
+.coreGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(34vmin, 350px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123, 113, 255, 0.14) 0%, rgba(94, 150, 255, 0.06) 40%, rgba(16, 16, 34, 0) 72%);
+  filter: blur(18px);
+  animation: breatheCore 5.8s ease-in-out infinite;
+}
+
+.coreVoid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(22vmin, 230px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #000 20%, rgba(6, 4, 16, 0.95) 58%, rgba(40, 26, 75, 0.35) 100%);
+  box-shadow:
+    0 0 48px rgba(84, 75, 158, 0.5),
+    0 0 100px rgba(64, 92, 168, 0.25);
+}
+
+@keyframes spinInner {
+  from {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
+
+@keyframes breatheInner {
+  0%,
+  100% {
+    opacity: 0.64;
+    scale: 0.96;
+  }
+  50% {
+    opacity: 0.97;
+    scale: 1.04 0.98;
+  }
+}
+
+@keyframes layerWobbleInner {
+  0%,
+  100% {
+    transform: scale(0.99, 1.01) rotate(1.5deg);
+  }
+  50% {
+    transform: scale(1.015, 0.985) rotate(-1.5deg);
+  }
+}
+
+@keyframes breatheCore {
+  0%,
+  100% {
+    opacity: 0.68;
+    scale: 0.95;
+  }
+  50% {
+    opacity: 1;
+    scale: 1.06;
+  }
+}

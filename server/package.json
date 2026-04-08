@@ -1,0 +1,31 @@
+{
+  "name": "indev-server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "migrate:up": "node-pg-migrate up -m migrations",
+    "migrate:down": "node-pg-migrate down -m migrations",
+    "migrate:create": "node-pg-migrate create -m migrations"
+  },
+  "dependencies": {
+    "connect-pg-simple": "^10.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.19.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.10.1",
+    "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
+    "passport-google-oauth20": "^2.0.0",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "node-pg-migrate": "^7.6.2",
+    "nodemon": "^3.1.4"
+  }
+}

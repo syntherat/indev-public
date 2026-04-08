@@ -1,0 +1,1039 @@
+.mobileShell {
+  width: min(80vw, 360px);
+  min-height: 52px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.mobileShellOpen {
+  overflow: visible;
+}
+
+.mobileLauncher {
+  width: 100%;
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0.45rem 0.85rem;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: #f4f7ff;
+  font: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.mobileLauncherTextWrap {
+  min-width: 0;
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileLauncherText {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(245, 248, 255, 0.92);
+  white-space: nowrap;
+  transition: opacity 220ms ease, transform 220ms ease, color 220ms ease;
+}
+
+.mobileLauncherPrompt {
+  color: rgba(245, 248, 255, 0.74);
+  animation: promptBreath 1.8s ease-in-out infinite;
+}
+
+.mobilePromptIconWrap {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 248, 255, 0.46);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(245, 248, 255, 0.9);
+}
+
+.mobileBrandCopy {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobileGreetingText {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: rgba(245, 248, 255, 0.84);
+  white-space: nowrap;
+}
+
+.mobileBackdrop {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  background: rgba(3, 4, 10, 0.46);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 28;
+  cursor: pointer;
+  animation: mobileBackdropIn 220ms ease forwards;
+  pointer-events: auto;
+}
+
+.mobileBackdropClosing {
+  animation: mobileBackdropOut 280ms ease forwards;
+}
+
+.mobileDrawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-height: min(70vh, 660px);
+  overflow: auto;
+  z-index: 29;
+  padding: 0.7rem 1rem 1rem;
+  border-radius: 24px 24px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 0;
+  background:
+    radial-gradient(120% 120% at 16% 84%, rgba(76, 120, 255, 0.2), transparent 52%),
+    radial-gradient(120% 140% at 86% 20%, rgba(133, 110, 255, 0.14), transparent 54%),
+    linear-gradient(180deg, rgba(20, 22, 31, 0.99), rgba(9, 10, 16, 0.99));
+  box-shadow:
+    0 -24px 54px rgba(3, 4, 11, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  animation: mobileSheetUp 280ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  pointer-events: auto;
+}
+
+.mobileDrawerClosing {
+  animation: mobileSheetDown 280ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.mobileDrawerHandle {
+  width: 62px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  margin: 0.08rem auto 0.82rem;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.mobileDrawerTopRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.64rem;
+  align-items: center;
+}
+
+.mobileDrawerTopRowSingle {
+  grid-template-columns: 1fr;
+}
+
+.mobileAccountPill {
+  min-height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, rgba(56, 59, 72, 0.38), rgba(26, 28, 37, 0.45));
+  display: inline-flex;
+  align-items: center;
+  gap: 0.54rem;
+  color: rgba(236, 240, 255, 0.72);
+  padding: 0 0.78rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.mobileAccountAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.mobileAccountAvatarImage,
+.mobileAccountAvatarFallback {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.mobileAccountAvatarImage {
+  object-fit: cover;
+  display: block;
+}
+
+.mobileAccountAvatarFallback {
+  display: grid;
+  place-items: center;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: rgba(245, 248, 255, 0.92);
+}
+
+.mobileAccountName {
+  min-width: 0;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: rgba(245, 248, 255, 0.9);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobileTopActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.44rem;
+}
+
+.mobileTopIconButton {
+  position: relative;
+  width: 44px;
+  min-height: 44px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: rgba(245, 248, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, rgba(62, 65, 78, 0.42), rgba(31, 33, 43, 0.56));
+}
+
+.mobileTopCount {
+  position: absolute;
+  top: -0.22rem;
+  right: -0.22rem;
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.2rem;
+  border-radius: 999px;
+  background: #ff8d66;
+  color: #2f1304;
+  font-size: 0.58rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.mobileLoginWideBtn {
+  min-height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, rgba(62, 65, 78, 0.42), rgba(31, 33, 43, 0.56));
+  color: rgba(245, 248, 255, 0.94);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.mobileSearchInput {
+  display: none;
+  background: transparent;
+}
+
+.mobilePatternDivider {
+  margin: 0.82rem -1rem 0.9rem;
+  height: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    repeating-linear-gradient(
+      -48deg,
+      rgba(255, 255, 255, 0.08) 0,
+      rgba(255, 255, 255, 0.08) 2px,
+      rgba(255, 255, 255, 0.02) 2px,
+      rgba(255, 255, 255, 0.02) 9px
+    );
+  opacity: 0.72;
+}
+
+.mobileDrawerGrid {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.mobileDrawerSection {
+  display: grid;
+  gap: 0.66rem;
+}
+
+.mobileDrawerSectionTitle {
+  margin: 0;
+  color: rgba(235, 240, 255, 0.65);
+  letter-spacing: 0.01em;
+  font-size: 0.74rem;
+  font-weight: 560;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.mobileDrawerSectionTitle::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02));
+}
+
+.mobilePageGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.mobilePageCard {
+  min-height: 60px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: rgba(245, 248, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 0.48rem;
+  align-items: center;
+  padding: 0.5rem 0.68rem;
+  position: relative;
+}
+
+.mobilePageCardActive {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 8px 22px rgba(2, 4, 12, 0.35);
+}
+
+.mobilePageIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(240, 245, 255, 0.7);
+  border: 0;
+  background: transparent;
+}
+
+.mobilePageCardActive .mobilePageIcon {
+  color: rgba(248, 250, 255, 0.94);
+  border-color: transparent;
+  background: transparent;
+}
+
+.mobilePageLabel {
+  font-size: 0.76rem;
+  font-weight: 560;
+  line-height: 1.2;
+  color: rgba(245, 249, 255, 0.92);
+}
+
+.mobileActiveDot {
+  position: absolute;
+  right: 0.84rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.mobileMiniGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.58rem;
+}
+
+.mobileMiniGridTwo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.58rem;
+}
+
+.mobileMiniCard {
+  min-height: 54px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  gap: 0.44rem;
+  padding: 0.44rem 0.56rem;
+  color: rgba(242, 246, 255, 0.9);
+  text-decoration: none;
+}
+
+.mobileMiniIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: rgba(240, 245, 255, 0.72);
+  flex-shrink: 0;
+}
+
+.mobileMiniLabel {
+  min-width: 0;
+  font-size: 0.7rem;
+  font-weight: 540;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes promptBreath {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.78;
+  }
+
+  50% {
+    transform: translateY(-1px);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileBackdropIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mobileBackdropOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes mobileSheetUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileSheetDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(100%);
+    opacity: 0.84;
+  }
+}
+.wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.wrapInteractive {
+  pointer-events: auto;
+}
+
+.shell {
+  position: absolute;
+  left: 50%;
+  top: 1.45rem;
+  transform: translate3d(-50%, 0, 0);
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(180deg, rgba(40, 42, 54, 0.58), rgba(18, 20, 31, 0.74));
+  backdrop-filter: blur(18px) saturate(1.25);
+  box-shadow:
+    0 14px 36px rgba(4, 5, 14, 0.58),
+    0 0 34px rgba(76, 95, 159, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  pointer-events: auto;
+  will-change: width, opacity, transform;
+  backface-visibility: hidden;
+  contain: layout style;
+  transition:
+    width 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.55s ease;
+  overflow: visible;
+}
+
+.shell.moreOpen {
+  width: var(--target-width, 500px);
+  transform: translate3d(-50%, 0, 0);
+  border-radius: 26px;
+  contain: none;
+  overflow: visible;
+  box-shadow:
+    0 22px 56px rgba(4, 5, 14, 0.64),
+    0 0 44px rgba(76, 95, 159, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.greeting {
+  width: var(--intro-width, 220px);
+}
+
+.expanding {
+  width: var(--target-width, 500px);
+}
+
+.settled {
+  width: var(--target-width, 500px);
+}
+
+.greetingText {
+  padding: 0.72rem 1.1rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  color: rgba(244, 247, 255, 0.96);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+  transition: opacity 0.34s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.popIn {
+  animation: popGreeting 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(-5px);
+  visibility: hidden;
+  transition-delay: 0s, 0s, 0.34s;
+  pointer-events: none;
+}
+
+.navContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.3rem;
+  padding: 0.36rem 0.42rem 0.36rem 0.52rem;
+  opacity: 0;
+  transform: translateY(4px) scaleX(0.96);
+  transform-origin: center;
+  transition:
+    opacity 0.52s ease,
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.52s;
+  will-change: opacity, transform;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.indicator {
+  position: absolute;
+  top: 0.36rem;
+  bottom: 0.36rem;
+  left: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 10px 20px rgba(7, 9, 19, 0.34);
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease;
+  pointer-events: none;
+}
+
+.topMarker {
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 30px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.45);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease;
+  pointer-events: none;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0) scaleX(1);
+  pointer-events: auto;
+}
+
+.measureRail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: max-content;
+  white-space: nowrap;
+  padding: 0.36rem 0.42rem 0.36rem 0.52rem;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.link,
+.linkButton {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  background: transparent;
+  color: rgba(232, 236, 249, 0.82);
+  font: inherit;
+  font-size: 0.96rem;
+  line-height: 1;
+  text-decoration: none;
+  padding: 0.56rem 1rem;
+  border-radius: 999px;
+  transition:
+    background 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.linkButton {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.moreTriggerActive {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.link:hover,
+.linkButton:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.active {
+  background: transparent;
+  color: #ffffff;
+}
+
+.active:hover {
+  background: transparent;
+}
+
+.chevron {
+  margin-left: 0.38rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chevronIcon {
+  transition: transform 0.22s ease;
+}
+
+.moreTriggerActive .chevronIcon,
+.linkButton:hover .chevronIcon,
+.linkButton:focus-visible .chevronIcon {
+  transform: rotate(180deg);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 0.92rem;
+  line-height: 1;
+  white-space: nowrap;
+  min-width: 108px;
+  padding: 0.46rem 0.92rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.2));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    0 4px 9px rgba(10, 12, 24, 0.32);
+  transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+  margin-left: 0;
+}
+
+.cta:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.2));
+}
+
+.morePanel {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.2rem);
+  transform: translateX(-50%) translateY(-8px) scale(0.97);
+  transform-origin: top center;
+  z-index: 30;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  padding: 0.78rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(120% 90% at 18% 16%, rgba(114, 153, 255, 0.18), transparent 64%),
+    linear-gradient(180deg, rgba(36, 39, 54, 0.94), rgba(19, 21, 31, 0.95));
+  box-shadow:
+    0 24px 58px rgba(4, 6, 16, 0.74),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition:
+    opacity 0.24s ease,
+    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.24s;
+}
+
+.classicMorePanel {
+  width: clamp(620px, 92vw, 760px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 0.78rem;
+}
+
+.portfolioPanel {
+  width: clamp(640px, 92vw, 860px);
+  display: block;
+}
+
+.morePanelOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+  transition-delay: 0s;
+}
+
+.moreCardsRail {
+  min-height: 192px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.portfolioCardsRail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.portfolioFeatureCard {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  text-decoration: none;
+  color: #f8faff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background-size: cover;
+  background-position: center;
+  padding: 0.9rem;
+  display: flex;
+  align-items: flex-end;
+  box-shadow:
+    0 16px 32px rgba(2, 4, 14, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.portfolioFeatureCard:hover,
+.portfolioFeatureCard:focus-visible {
+  transform: translateY(-6px) scale(1.015);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 24px 42px rgba(2, 4, 14, 0.64),
+    0 0 22px rgba(130, 176, 255, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.portfolioFeatureOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.56));
+}
+
+.portfolioFeatureTitle,
+.portfolioArrow {
+  position: relative;
+  z-index: 1;
+}
+
+.portfolioFeatureTitle {
+  max-width: calc(100% - 34px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.portfolioArrow {
+  position: absolute;
+  right: 0.78rem;
+  bottom: 0.78rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(5, 8, 18, 0.6);
+  display: grid;
+  place-items: center;
+  color: rgba(245, 248, 255, 0.96);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
+}
+
+.portfolioFeatureCard:hover .portfolioArrow,
+.portfolioFeatureCard:focus-visible .portfolioArrow {
+  transform: translate(2px, -2px) scale(1.05);
+  background: rgba(107, 149, 255, 0.32);
+}
+
+.moreFeatureCard {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 190px;
+  padding: 0.92rem;
+  border-radius: 16px;
+  text-decoration: none;
+  color: #f8faff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(120% 85% at 12% 8%, rgba(255, 199, 154, 0.45), transparent 62%),
+    linear-gradient(165deg, rgba(54, 41, 31, 0.95), rgba(22, 24, 37, 0.92));
+  transition: transform 0.24s ease, border-color 0.24s ease;
+}
+
+.moreFeatureCard:nth-child(2) {
+  background:
+    radial-gradient(120% 90% at 24% 6%, rgba(121, 177, 255, 0.55), transparent 62%),
+    linear-gradient(162deg, rgba(30, 57, 95, 0.92), rgba(22, 23, 36, 0.92));
+}
+
+.moreFeatureCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.moreFeatureOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.54));
+}
+
+.moreFeatureTitle,
+.moreFeatureDescription {
+  position: relative;
+  z-index: 1;
+}
+
+.moreFeatureTitle {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-size: 1.1rem;
+}
+
+.moreFeatureDescription {
+  margin-top: 0.2rem;
+  color: rgba(238, 243, 255, 0.88);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.moreLinksRail {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.moreInfoCard {
+  display: flex;
+  align-items: center;
+  gap: 0.72rem;
+  text-decoration: none;
+  color: #f7f9ff;
+  min-height: 58px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.62rem 0.72rem;
+  transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+}
+
+.moreInfoCard:hover {
+  transform: translateX(3px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+.moreInfoGlyph {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  color: rgba(223, 233, 255, 0.92);
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.74rem;
+}
+
+.moreInfoText {
+  min-width: 0;
+}
+
+.moreInfoTitle {
+  display: block;
+  font-size: 0.98rem;
+  font-weight: 650;
+}
+
+.moreInfoDescription {
+  margin-top: 0.1rem;
+  display: block;
+  font-size: 0.86rem;
+  color: rgba(232, 238, 255, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes popGreeting {
+  0% {
+    scale: 0.92;
+  }
+  60% {
+    scale: 1.035;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    width: min(80vw, 360px);
+    overflow: hidden;
+    border-radius: 999px;
+  }
+
+  .shell.moreOpen {
+    width: min(80vw, 360px);
+    transform: translate3d(-50%, 0, 0);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .greetingText,
+  .navContent,
+  .measureRail,
+  .morePanel {
+    display: none;
+  }
+
+  .mobileLauncher {
+    display: inline-flex;
+  }
+
+  .logoLink {
+    display: none;
+  }
+
+  .morePanel {
+    width: min(95vw, 680px);
+    top: calc(100% + 0.18rem);
+  }
+
+  .classicMorePanel {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolioCardsRail {
+    grid-template-columns: 1fr;
+  }
+
+  .moreCardsRail {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell,
+  .navContent,
+  .indicator,
+  .link,
+  .linkButton,
+  .cta,
+  .chevron,
+  .morePanel,
+  .portfolioFeatureCard,
+  .moreFeatureCard,
+  .portfolioArrow,
+  .moreInfoCard {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+}

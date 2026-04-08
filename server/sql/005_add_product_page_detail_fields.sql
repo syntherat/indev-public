@@ -1,0 +1,10 @@
+ALTER TABLE products ADD COLUMN IF NOT EXISTS product_subtitle TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS gallery_images TEXT[] NOT NULL DEFAULT ARRAY[]::text[];
+ALTER TABLE products ADD COLUMN IF NOT EXISTS faq_items JSONB NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS spec_items JSONB NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS warranty_title TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS warranty_description TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS warranty_link_label TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS warranty_link_url TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS support_title TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS support_description TEXT;

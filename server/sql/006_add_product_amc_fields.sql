@@ -1,0 +1,3 @@
+ALTER TABLE products ADD COLUMN IF NOT EXISTS amc_frequency TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS amc_price_range TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS amc_notes TEXT;

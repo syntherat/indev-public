@@ -1,0 +1,2 @@
+ALTER TABLE user_orders
+ADD COLUMN IF NOT EXISTS is_test_purchase BOOLEAN NOT NULL DEFAULT true;

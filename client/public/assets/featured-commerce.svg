@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="Commerce product preview">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d1530"/>
+      <stop offset="1" stop-color="#08080d"/>
+    </linearGradient>
+    <linearGradient id="a1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dcb8ff"/>
+      <stop offset="1" stop-color="#7d63ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="520" fill="url(#bg1)"/>
+  <rect x="60" y="52" width="680" height="416" rx="28" fill="#0c0c12" stroke="rgba(255,255,255,.12)"/>
+  <rect x="90" y="88" width="620" height="34" rx="12" fill="rgba(255,255,255,.06)"/>
+  <circle cx="116" cy="105" r="6" fill="#ffffff" opacity=".7"/>
+  <circle cx="140" cy="105" r="6" fill="#ffffff" opacity=".45"/>
+  <circle cx="164" cy="105" r="6" fill="#ffffff" opacity=".25"/>
+  <rect x="94" y="150" width="250" height="270" rx="22" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.09)"/>
+  <rect x="364" y="150" width="346" height="116" rx="22" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.09)"/>
+  <rect x="364" y="284" width="346" height="136" rx="22" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.09)"/>
+  <rect x="116" y="178" width="86" height="86" rx="18" fill="url(#a1)"/>
+  <rect x="220" y="184" width="106" height="12" rx="6" fill="#fff" opacity=".88"/>
+  <rect x="220" y="207" width="90" height="10" rx="5" fill="#fff" opacity=".2"/>
+  <rect x="220" y="227" width="74" height="10" rx="5" fill="#fff" opacity=".14"/>
+  <path d="M118 392C176 335 250 318 326 334C402 350 480 334 650 240" fill="none" stroke="url(#a1)" stroke-width="4" stroke-linecap="round"/>
+</svg>

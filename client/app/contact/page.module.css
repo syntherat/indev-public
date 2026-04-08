@@ -1,0 +1,996 @@
+.root {
+  min-height: 100vh;
+  background: #0b0c10;
+  color: #f7f8ff;
+  padding: 116px 1rem 3rem;
+  font-family: "Outfit", sans-serif;
+}
+
+.hero {
+  width: min(1060px, 100%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(240, 245, 255, 0.6);
+  font-size: 0.72rem;
+}
+
+.hero h1 {
+  margin: 0.7rem 0 0;
+  font-size: clamp(2rem, 5vw, 4.1rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.hero h1 span {
+  color: #b6c3d4;
+  font-style: italic;
+}
+
+.actionRail {
+  margin: 1rem auto 0;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 0.35rem;
+  background: rgba(20, 22, 28, 0.86);
+}
+
+.actionBtn {
+  min-height: 36px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(245, 247, 255, 0.84);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.actionBtnActive {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.socialRail {
+  margin-left: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+}
+
+.socialRail a {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(240, 245, 255, 0.82);
+  display: grid;
+  place-items: center;
+}
+
+.schedulerWrap {
+  width: min(1060px, 100%);
+  margin: 1rem auto 0;
+  transition: width 260ms ease;
+}
+
+.schedulerWrapDetails {
+  width: min(900px, 100%);
+  transition: width 260ms ease;
+}
+
+.scheduler {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111319;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr) 230px;
+  transition: grid-template-columns 260ms ease, width 260ms ease, min-height 260ms ease, max-width 260ms ease, max-height 260ms ease, height 260ms ease;
+  min-height: 560px;
+}
+
+.schedulerDetails {
+  grid-template-columns: 280px minmax(0, 1fr);
+  transition: grid-template-columns 260ms ease;
+}
+
+.detailsPanel {
+  padding: 1rem;
+  transition: all 260ms ease, max-height 520ms ease, min-height 260ms ease, height 260ms ease;
+  overflow: hidden;
+}
+
+.infoPanel {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 1rem;
+  transition: all 260ms ease;
+}
+
+.logoBadge {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logoBadge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hostName {
+  margin: 0;
+  color: rgba(241, 245, 255, 0.72);
+}
+
+.infoPanel h2 {
+  margin: 0;
+  font-size: 1.95rem;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.inlineSelectionMeta,
+.selectedSlotSummary {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.selectedSlotSummary {
+  margin-top: 0.35rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.7rem;
+}
+
+.inlineSelectionMeta p,
+.selectedSlotSummary p {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(241, 245, 255, 0.9);
+}
+
+.infoList {
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.infoList li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(241, 245, 255, 0.86);
+  line-height: 1.45;
+}
+
+.meetIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.calendarPanel {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  transition: all 260ms ease;
+}
+
+.slotsPanel {
+  padding: 1rem;
+  transition: all 260ms ease;
+}
+
+.calendarHead,
+.slotsHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.calendarHead h3,
+.slotsHead h3 {
+  margin: 0;
+  font-size: 1.45rem;
+  letter-spacing: -0.02em;
+}
+
+.slotsTitle {
+  font-size: 1.75rem !important;
+  letter-spacing: -0.03em !important;
+  color: #f0f4fb;
+}
+
+.calendarArrows {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.calendarArrows button {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(245, 247, 255, 0.84);
+  display: grid;
+  place-items: center;
+  transition: background-color 180ms ease, border-color 180ms ease;
+  cursor: pointer;
+}
+
+.calendarArrows button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.calendarArrows button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.weekdays {
+  margin-top: 0.95rem;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.34rem;
+}
+
+.weekdays span {
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: rgba(241, 245, 255, 0.62);
+  text-align: center;
+}
+
+.daysGrid {
+  margin-top: 0.55rem;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.34rem;
+}
+
+.dayCell {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(241, 245, 255, 0.7);
+  font: inherit;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.dayCell:disabled {
+  opacity: 0.34;
+}
+
+.dayCell:not(:disabled):hover {
+  background: rgba(235, 241, 255, 0.18);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.dayAvailable {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.daySelected {
+  background: #f2f4f8;
+  color: #121621;
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.durationToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(7, 10, 16, 0.95);
+  padding: 0.16rem;
+}
+
+.durationToggle button {
+  min-width: 38px;
+  min-height: 30px;
+  border: 0;
+  background: transparent;
+  color: rgba(241, 245, 255, 0.72);
+  font: inherit;
+  font-weight: 600;
+  border-radius: 9px;
+  padding: 0 0.35rem;
+  transition: background-color 180ms ease, color 180ms ease;
+  cursor: pointer;
+}
+
+.durationToggle button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(241, 245, 255, 0.9);
+}
+
+.durationActive {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #fff !important;
+}
+
+.slotsList {
+  margin-top: 0.85rem;
+  display: grid;
+  gap: 0.45rem;
+  max-height: 480px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.slotsList::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.slotBtn {
+  min-height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(16, 18, 24, 0.95);
+  color: #fff;
+  font: inherit;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  cursor: pointer;
+}
+
+.slotBtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.slotBtnActive {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.requestForm {
+  margin-top: 0;
+  display: grid;
+  gap: 0.95rem;
+  animation: slideIn 260ms ease;
+  transition: all 260ms ease, max-height 520ms ease, min-height 260ms ease, height 260ms ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formField {
+  display: grid;
+  gap: 0.35rem;
+  animation: slideIn 260ms ease;
+  transition: all 260ms ease;
+}
+
+.formField label {
+  color: #f5f7ff;
+  font-weight: 600;
+}
+
+.requestForm input,
+.requestForm textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: #0d1017;
+  color: #f7f8ff;
+  font: inherit;
+  outline: 0;
+  padding: 0.62rem 0.72rem;
+}
+
+.requestForm select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: #0d1017;
+  color: #f7f8ff;
+  font: inherit;
+  outline: 0;
+  padding: 0.62rem 0.72rem;
+}
+
+.requestForm input {
+  min-height: 42px;
+}
+
+.requestForm textarea {
+  resize: none;
+  min-height: 96px;
+}
+
+.guestInputWrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  align-items: center;
+  animation: slideIn 260ms ease;
+  position: relative;
+}
+
+.guestInputWrap input {
+  padding-right: 40px;
+}
+
+.removeFieldBtn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 0;
+  background: transparent;
+  color: rgba(241, 245, 255, 0.6);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.removeFieldBtn:hover {
+  background: rgba(255, 100, 120, 0.15);
+  color: rgba(255, 150, 170, 0.9);
+}
+
+.guestChips {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  animation: slideIn 260ms ease;
+}
+
+.guestChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.2rem 0.46rem 0.2rem 0.6rem;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.guestChip button {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  border: 0;
+  background: transparent;
+  color: rgba(241, 245, 255, 0.9);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  flex-grow: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+.guestChip button:hover {
+  background: rgba(255, 150, 170, 0.2);
+  color: #ffd4dc;
+}
+
+.addAnotherBtn {
+  margin-top: 0.45rem;
+  width: fit-content;
+  border: 0;
+  background: transparent;
+  color: rgba(241, 245, 255, 0.86);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  font: inherit;
+  animation: slideIn 260ms ease;
+}
+
+.termsLine {
+  margin: 0.2rem 0 0;
+  color: rgba(209, 219, 236, 0.76);
+  animation: slideIn 260ms ease;
+}
+
+.termsLine a {
+  color: rgba(255, 255, 255, 0.96);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.34);
+  text-underline-offset: 0.16em;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+.termsLine a:hover {
+  color: #ffffff;
+  text-decoration-color: rgba(255, 255, 255, 0.92);
+}
+
+.detailsActions {
+  display: grid;
+  grid-template-columns: 70px auto;
+  gap: 0.55rem;
+  margin-top: 0.2rem;
+  animation: slideIn 260ms ease;
+}
+
+.backBtn,
+.confirmBtn {
+  min-height: 40px;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 600;
+  transition: background-color 180ms ease, border-color 180ms ease;
+  cursor: pointer;
+}
+
+.backBtn {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: transparent;
+  color: rgba(245, 247, 255, 0.8);
+}
+
+.backBtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.24);
+  color: #fff;
+}
+
+.confirmBtn {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.92);
+  color: #121621;
+  padding: 0 1.2rem;
+  width: fit-content;
+}
+
+.confirmBtn:hover:not(:disabled) {
+  background: #fff;
+  border-color: #fff;
+}
+
+.confirmBtn:disabled {
+  opacity: 0.66;
+  cursor: not-allowed;
+}
+
+.messageWrap {
+  width: min(900px, 100%);
+  margin: 1rem auto 0;
+}
+
+.messageCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(18, 20, 26, 0.97), rgba(11, 12, 17, 0.98)),
+    #101116;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+  padding: 1.15rem;
+}
+
+.messageCardReveal {
+  animation: fadeInPanel 320ms ease;
+}
+
+.messageCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.06), transparent 22%),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: auto, 26px 26px, 26px 26px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.38), transparent 90%);
+}
+
+.messageIntro {
+  display: grid;
+  gap: 0.28rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.messageKicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(240, 245, 255, 0.6);
+  font-size: 0.72rem;
+}
+
+.messageIntro p:last-child {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: rgba(209, 219, 236, 0.8);
+  max-width: 58ch;
+}
+
+.messageForm {
+  display: grid;
+  gap: 0.95rem;
+  position: relative;
+  z-index: 1;
+}
+
+.requestForm,
+.messageForm {
+  position: relative;
+}
+
+.loadingForm > :not(.loadingOverlay) {
+  filter: blur(2.5px);
+  opacity: 0.55;
+  pointer-events: none;
+  user-select: none;
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 10, 14, 0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: inherit;
+  animation: loadingFade 180ms ease;
+}
+
+.loadingCard {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(16, 18, 24, 0.78);
+  color: #f7f8ff;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fff;
+  animation: loadingSpin 700ms linear infinite;
+}
+
+.messageForm input,
+.messageForm textarea,
+.messageForm select {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  background: #0d1017;
+  color: #f7f8ff;
+  font: inherit;
+  outline: 0;
+  padding: 0.62rem 0.72rem;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.messageForm input,
+.messageForm select {
+  min-height: 42px;
+}
+
+.messageForm textarea {
+  resize: none;
+  min-height: 118px;
+}
+
+.messageForm input:focus,
+.messageForm textarea:focus,
+.messageForm select:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: #11151c;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+}
+
+.messageTopRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.consentRow {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: center;
+  color: rgba(241, 245, 255, 0.9);
+  line-height: 1.45;
+}
+
+.consentRow input {
+  width: 16px;
+  height: 16px;
+  margin-top: 0.18rem;
+  accent-color: #f2f4f8;
+  align-self: center;
+}
+
+.messageForm .confirmBtn {
+  width: 100%;
+  justify-content: center;
+}
+
+.messageForm .confirmBtn svg {
+  margin-left: 0.1rem;
+}
+
+.addGuestsBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 0;
+  background: transparent;
+  color: rgba(241, 245, 255, 0.88);
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+  transition: color 180ms ease;
+  animation: slideIn 260ms ease;
+}
+
+.addGuestsBtn:hover {
+  color: #fff;
+}
+
+.formError,
+.formSuccess {
+  margin: 0;
+  border-radius: 10px;
+  padding: 0.48rem 0.55rem;
+  font-size: 0.84rem;
+}
+
+.formError {
+  border: 1px solid rgba(255, 114, 137, 0.34);
+  background: rgba(255, 114, 137, 0.12);
+  color: #ffd4dc;
+}
+
+.formSuccess {
+  border: 1px solid rgba(103, 220, 157, 0.34);
+  background: rgba(103, 220, 157, 0.12);
+  color: #d7ffe9;
+}
+
+.fadeIn {
+  animation: fadeInPanel 260ms ease;
+}
+
+@keyframes fadeInPanel {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loadingSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loadingFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.successState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 560px;
+  background: linear-gradient(135deg, #111319 0%, #141820 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  animation: successEnter 320ms ease;
+}
+
+.successContent {
+  text-align: center;
+  animation: scaleIn 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.successCheckmark {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  background: rgba(103, 220, 157, 0.12);
+  border: 2px solid rgba(103, 220, 157, 0.34);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.2rem;
+  color: #67dc9d;
+  font-weight: 300;
+  animation: checkmarkPulse 600ms ease 200ms both;
+}
+
+.successTitle {
+  margin: 0 0 12px 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #f7f8ff;
+  letter-spacing: -0.02em;
+}
+
+.successSubtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: rgba(240, 245, 255, 0.7);
+  line-height: 1.5;
+}
+
+@keyframes successEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes checkmarkPulse {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1040px) {
+  .scheduler {
+    grid-template-columns: 220px minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .schedulerDetails {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .slotsPanel {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .slotsList {
+    max-height: 320px;
+  }
+}
+
+@media (max-width: 760px) {
+  .root {
+    padding-top: 102px;
+  }
+
+  .actionRail {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .scheduler,
+  .schedulerDetails {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .infoPanel,
+  .calendarPanel {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .slotsList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .messageTopRow {
+    grid-template-columns: 1fr;
+  }
+}

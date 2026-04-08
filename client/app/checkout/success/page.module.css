@@ -1,0 +1,231 @@
+.page {
+  min-height: 100svh;
+  padding: 8.6rem 1.25rem 4.5rem;
+  color: #eef3ff;
+  background: #000000;
+}
+
+.shell {
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  padding: 0;
+}
+
+.kicker {
+  margin: 0;
+  color: rgba(227, 236, 255, 0.7);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.shell h1 {
+  margin: 8px 0 0;
+  font-size: clamp(1.8rem, 3.6vw, 2.4rem);
+  line-height: 1.1;
+}
+
+.lead {
+  margin: 8px 0 0;
+  color: rgba(232, 240, 255, 0.75);
+  font-size: 0.95rem;
+}
+
+.metaRow {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.metaRow span {
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(239, 244, 255, 0.85);
+}
+
+.cardsGrid {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+
+.itemCard {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 14, 18, 0.4);
+  display: grid;
+  grid-template-columns: 280px auto;
+  gap: 24px;
+  padding: 20px;
+  align-items: center;
+  transition: all 0.2s ease;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.itemCard:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(14, 14, 18, 0.6);
+}
+
+.itemCardImage {
+  height: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itemCardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+
+.itemCardContent {
+  display: grid;
+  gap: 12px;
+}
+
+.itemTag {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(224, 234, 255, 0.68);
+  font-weight: 600;
+}
+
+.itemCard h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.itemCard p {
+  margin: 0;
+  color: rgba(233, 241, 255, 0.78);
+  font-size: 0.9rem;
+}
+
+.downloadBtn {
+  margin-top: 0.8rem;
+  width: fit-content;
+  border-radius: 8px;
+  border: 1px solid rgba(208, 182, 255, 0.5);
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 10px 20px;
+  background: linear-gradient(180deg, rgba(181, 137, 255, 0.75), rgba(112, 78, 219, 0.85));
+  transition: all 0.2s ease;
+}
+
+.downloadBtn:hover:not(.downloadBtnMuted) {
+  border-color: rgba(208, 182, 255, 0.8);
+  background: linear-gradient(180deg, rgba(181, 137, 255, 0.88), rgba(112, 78, 219, 0.95));
+  transform: translateY(-1px);
+}
+
+.downloadBtnMuted {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.emptyCard {
+  margin-top: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 14, 18, 0.4);
+  padding: 24px;
+}
+
+.emptyCard h2,
+.emptyCard p {
+  margin: 0;
+}
+
+.emptyCard p {
+  margin-top: 0.44rem;
+  color: rgba(233, 241, 255, 0.8);
+}
+
+.actionsRow {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+}
+
+.primaryBtn {
+  color: #ffffff;
+  border: 1px solid rgba(208, 182, 255, 0.5);
+  background: linear-gradient(180deg, rgba(181, 137, 255, 0.75), rgba(112, 78, 219, 0.85));
+}
+
+.primaryBtn:hover {
+  border-color: rgba(208, 182, 255, 0.8);
+  background: linear-gradient(180deg, rgba(181, 137, 255, 0.88), rgba(112, 78, 219, 0.95));
+  transform: translateY(-1px);
+}
+
+.secondaryBtn {
+  color: #eff4ff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.secondaryBtn:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding-top: 6.4rem;
+  }
+
+  .shell {
+    width: min(100%, 94vw);
+  }
+
+  .itemCard {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .itemCardImage {
+    height: 240px;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+}
