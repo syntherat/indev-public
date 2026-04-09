@@ -94,7 +94,6 @@ export default function CartProvider({ children }) {
 
   async function checkout() {
     const payload = await checkoutCart();
-    setCart(emptyCart());
     return payload;
   }
 

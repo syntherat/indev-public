@@ -36,3 +36,7 @@ export async function updateAccountProfile({ contactNumber, country, postalCode 
 export async function fetchAccountOrders() {
   return requestJson("/api/account/orders");
 }
+
+export async function fetchLibraryDownloadUrl(productId) {
+  return requestJson(`/api/account/library/${encodeURIComponent(productId)}/download-url`);
+}

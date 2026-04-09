@@ -53,6 +53,53 @@ function mapOrderRows(orderRows, itemRows) {
   }));
 }
 
+async function getOrderByRazorpayPaymentId(paymentId) {
+  const ordersResult = await db.query(
+    `
+      SELECT
+        id,
+        order_number,
+        fulfillment_status,
+        payment_status,
+        is_test_purchase,
+        total_items,
+        subtotal,
+        total,
+        created_at
+      FROM user_orders
+      WHERE razorpay_payment_id = $1
+      LIMIT 1
+    `,
+    [paymentId]
+  );
+
+  if (ordersResult.rows.length === 0) {
+    return null;
+  }
+
+  const orderRow = ordersResult.rows[0];
+  const itemResult = await db.query(
+    `
+      SELECT
+        order_id,
+        product_id,
+        product_slug,
+        product_name,
+        product_category,
+        product_image,
+        unit_price,
+        quantity,
+        line_total
+      FROM user_order_items
+      WHERE order_id = $1
+      ORDER BY created_at ASC, id ASC
+    `,
+    [orderRow.id]
+  );
+
+  return mapOrderRows([orderRow], itemResult.rows)[0] || null;
+}
+
 async function getUserProfile(userId) {
   const result = await db.query(
     `
@@ -96,13 +143,15 @@ async function updateUserProfile(userId, { contactNumber, country, postalCode })
   return mapProfileRow(result.rows[0]);
 }
 
-async function createOrderFromCart(userId, items, summary) {
+async function createOrderFromCart(userId, items, summary, payment = {}) {
   const pool = db.pool || db;
   const client = await pool.connect();
 
   try {
     await client.query("BEGIN");
 
+    const paymentStatus = payment.paymentStatus || (payment.razorpayPaymentId ? "Paid" : "Pending");
+    const isTestPurchase = Boolean(payment.isTestPurchase ?? false);
     const orderNumber = `IND-${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`;
 
     const orderInsert = await client.query(
@@ -113,22 +162,29 @@ async function createOrderFromCart(userId, items, summary) {
           fulfillment_status,
           payment_status,
           is_test_purchase,
+          razorpay_order_id,
+          razorpay_payment_id,
+          razorpay_signature,
           total_items,
           subtotal,
           total,
           created_at,
           updated_at
         )
-        VALUES ($1, $2, 'Processing', 'Pending', $3, $4, $5, $6, current_timestamp, current_timestamp)
+        VALUES ($1, $2, 'Processing', $3, $4, $5, $6, $7, $8, $9, $10, current_timestamp, current_timestamp)
         RETURNING id, order_number
       `,
       [
         userId,
         orderNumber,
-        true,
+        paymentStatus,
+        isTestPurchase,
+        payment.razorpayOrderId || null,
+        payment.razorpayPaymentId || null,
+        payment.razorpaySignature || null,
         Number(summary?.itemCount || 0),
         Number(summary?.subtotal || 0),
-        Number(summary?.subtotal || 0),
+        Number(summary?.total || summary?.subtotal || 0),
       ]
     );
 
@@ -245,9 +301,44 @@ async function getOrdersByUserId(userId) {
   return mapOrderRows(ordersResult.rows, itemResult.rows);
 }
 
+async function getPurchasedDownloadableProduct(userId, productId) {
+  const result = await db.query(
+    `
+      SELECT
+        p.id,
+        p.download_s3_key,
+        p.download_file_name,
+        p.name,
+        p.category
+      FROM products p
+      INNER JOIN user_order_items oi ON oi.product_id = p.id
+      INNER JOIN user_orders o ON o.id = oi.order_id
+      WHERE o.user_id = $1
+        AND p.id = $2
+      ORDER BY o.created_at DESC
+      LIMIT 1
+    `,
+    [userId, productId]
+  );
+
+  if (!result.rows[0]) {
+    return null;
+  }
+
+  return {
+    id: result.rows[0].id,
+    downloadS3Key: result.rows[0].download_s3_key,
+    downloadFileName: result.rows[0].download_file_name,
+    name: result.rows[0].name,
+    category: result.rows[0].category,
+  };
+}
+
 module.exports = {
   getUserProfile,
   updateUserProfile,
   createOrderFromCart,
   getOrdersByUserId,
+  getOrderByRazorpayPaymentId,
+  getPurchasedDownloadableProduct,
 };

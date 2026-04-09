@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Download, Search } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { fetchAccountOrders } from "@/lib/accountApi";
+import { fetchAccountOrders, fetchLibraryDownloadUrl } from "@/lib/accountApi";
 import styles from "./page.module.css";
 
 function formatDate(value) {
@@ -37,6 +37,7 @@ export default function MyLibraryPage() {
   const [orders, setOrders] = useState([]);
   const [errorNotice, setErrorNotice] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [downloadingKey, setDownloadingKey] = useState("");
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -155,6 +156,35 @@ export default function MyLibraryPage() {
     );
   }
 
+  async function handleDownload(event, project) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!project?.productId) {
+      setErrorNotice("Download is unavailable for this product.");
+      return;
+    }
+
+    const activeKey = String(project.key || project.productId);
+    setDownloadingKey(activeKey);
+    setErrorNotice("");
+
+    try {
+      const payload = await fetchLibraryDownloadUrl(project.productId);
+      const url = payload?.data?.url;
+
+      if (!url) {
+        throw new Error("Download URL is unavailable right now.");
+      }
+
+      window.location.href = url;
+    } catch (error) {
+      setErrorNotice(error?.message || "Unable to start download right now.");
+    } finally {
+      setDownloadingKey("");
+    }
+  }
+
   return (
     <main className={styles.page}>
       <section className={styles.shell}>
@@ -198,7 +228,6 @@ export default function MyLibraryPage() {
         ) : (
           <div className={styles.grid}>
             {filteredProjects.map((project) => {
-              const downloadHref = project.href || "#";
               const projectHref = project.href || "/products";
 
               return (
@@ -224,18 +253,13 @@ export default function MyLibraryPage() {
 
                     <div className={styles.cardActions}>
                       <a
-                        href={downloadHref}
-                        className={`${styles.downloadBtn} ${downloadHref === "#" ? styles.downloadBtnMuted : ""}`.trim()}
-                        onClick={(event) => {
-                          event.stopPropagation();
-
-                          if (downloadHref === "#") {
-                            event.preventDefault();
-                          }
-                        }}
+                        href="#"
+                        className={`${styles.downloadBtn} ${!project?.productId ? styles.downloadBtnMuted : ""}`.trim()}
+                        onClick={(event) => handleDownload(event, project)}
+                        aria-disabled={!project?.productId || downloadingKey === String(project.key || project.productId)}
                       >
                         <Download size={15} strokeWidth={2.4} />
-                        Download
+                        {downloadingKey === String(project.key || project.productId) ? "Preparing..." : "Download"}
                       </a>
                     </div>
                   </div>

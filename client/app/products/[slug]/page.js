@@ -5,9 +5,11 @@ import ProductFaqAccordion from "@/components/ProductFaqAccordion";
 import ProductDetailPurchaseActions from "@/components/products/ProductDetailPurchaseActions";
 import ProductReviewsSection from "@/components/products/ProductReviewsSection";
 
+const FALLBACK_PRODUCT_SLUGS = ["commerce-flow", "pulse-mobile", "ops-atlas", "studio-custom"];
+
 export async function generateStaticParams() {
   const { products = [] } = await getProductsCatalog();
-  const slugs = new Set();
+  const slugs = new Set(FALLBACK_PRODUCT_SLUGS);
 
   for (const product of products) {
     const slug = String(product?.slug || "").trim();

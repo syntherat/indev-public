@@ -9,5 +9,6 @@ router.use(requireUser);
 router.get("/profile", accountController.getProfile);
 router.patch("/profile", accountController.updateProfile);
 router.get("/orders", accountController.getOrders);
+router.get("/library/:productId/download-url", accountController.getLibraryDownloadUrl);
 
 module.exports = router;

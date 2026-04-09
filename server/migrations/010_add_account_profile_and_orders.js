@@ -38,6 +38,15 @@ exports.up = (pgm) => {
       notNull: true,
       default: "Pending",
     },
+    razorpay_order_id: {
+      type: "text",
+    },
+    razorpay_payment_id: {
+      type: "text",
+    },
+    razorpay_signature: {
+      type: "text",
+    },
     total_items: {
       type: "integer",
       notNull: true,

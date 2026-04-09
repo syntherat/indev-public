@@ -51,3 +51,10 @@ export async function checkoutCart() {
     method: "POST",
   });
 }
+
+export async function verifyCheckout(paymentDetails) {
+  return requestJson("/api/cart/checkout/verify", {
+    method: "POST",
+    body: JSON.stringify(paymentDetails),
+  });
+}

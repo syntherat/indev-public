@@ -6,43 +6,128 @@ import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useCart } from "@/components/cart/CartProvider";
+import { verifyCheckout } from "@/lib/cartApi";
 
 const CHECKOUT_SUCCESS_STORAGE_KEY = "indev.checkout.success";
+let razorpayScriptPromise = null;
 
 function formatPrice(value) {
   const number = Number(value || 0);
   return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(number);
 }
 
+function loadRazorpayScript() {
+  if (typeof window === "undefined") {
+    return Promise.resolve(false);
+  }
+
+  if (window.Razorpay) {
+    return Promise.resolve(true);
+  }
+
+  if (!razorpayScriptPromise) {
+    razorpayScriptPromise = new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  }
+
+  return razorpayScriptPromise;
+}
+
 export default function CartPage() {
   const router = useRouter();
-  const { status } = useAuth();
-  const { cart, loading, removeFromCart, checkout } = useCart();
+  const { user, status } = useAuth();
+  const { cart, loading, removeFromCart, checkout, refreshCart } = useCart();
   const [checkoutState, setCheckoutState] = useState({ loading: false, message: "" });
 
   const items = cart?.items || [];
   const summary = cart?.summary || { itemCount: 0, subtotal: 0 };
   const isAuthenticated = status === "authenticated";
-
-  const estimatedTax = useMemo(() => summary.subtotal * 0.18, [summary.subtotal]);
-  const grandTotal = summary.subtotal + estimatedTax;
+  const grandTotal = useMemo(() => summary.subtotal, [summary.subtotal]);
 
   async function handleCheckout() {
     setCheckoutState({ loading: true, message: "" });
     try {
       const payload = await checkout();
+      const razorpayConfig = payload?.data?.razorpay;
 
-      if (typeof window !== "undefined") {
-        window.sessionStorage.setItem(
-          CHECKOUT_SUCCESS_STORAGE_KEY,
-          JSON.stringify({
-            ...payload?.data,
-            checkedOutAt: new Date().toISOString(),
-          })
-        );
+      if (!razorpayConfig?.orderId || !razorpayConfig?.keyId) {
+        throw new Error("Razorpay checkout is not available right now.");
       }
 
-      router.push(payload?.data?.redirectUrl || "/checkout/success");
+      const scriptLoaded = await loadRazorpayScript();
+
+      if (!scriptLoaded || typeof window.Razorpay !== "function") {
+        throw new Error("Unable to load the payment gateway.");
+      }
+
+      const instance = new window.Razorpay({
+        key: razorpayConfig.keyId,
+        amount: razorpayConfig.amount,
+        currency: razorpayConfig.currency || "INR",
+        name: razorpayConfig.name || "Indev Digital",
+        description: razorpayConfig.description || "Secure checkout",
+        order_id: razorpayConfig.orderId,
+        prefill: {
+          name: razorpayConfig.prefill?.name || user?.name || "",
+          email: razorpayConfig.prefill?.email || user?.email || "",
+        },
+        notes: razorpayConfig.notes || {},
+        theme: {
+          color: "#111111",
+        },
+        handler: async (response) => {
+          try {
+            setCheckoutState({ loading: true, message: "" });
+
+            const verifyPayload = await verifyCheckout({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (typeof window !== "undefined") {
+              window.sessionStorage.setItem(
+                CHECKOUT_SUCCESS_STORAGE_KEY,
+                JSON.stringify({
+                  ...verifyPayload?.data,
+                  checkedOutAt: verifyPayload?.data?.checkedOutAt || new Date().toISOString(),
+                })
+              );
+            }
+
+            await refreshCart();
+
+            router.push(verifyPayload?.data?.redirectUrl || "/checkout/success");
+          } catch (error) {
+            setCheckoutState({ loading: false, message: error?.message || "Unable to verify payment right now." });
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setCheckoutState({ loading: false, message: "Checkout cancelled." });
+          },
+        },
+      });
+
+      instance.on("payment.failed", (response) => {
+        setCheckoutState({
+          loading: false,
+          message: response?.error?.description || "Payment failed. Please try again.",
+        });
+      });
+
+      if (typeof window !== "undefined") {
+        window.sessionStorage.removeItem(CHECKOUT_SUCCESS_STORAGE_KEY);
+      }
+
+      instance.open();
+      setCheckoutState({ loading: false, message: "" });
     } catch (error) {
       setCheckoutState({ loading: false, message: error?.message || "Unable to checkout right now." });
     }
@@ -135,10 +220,6 @@ export default function CartPage() {
                 <strong>{formatPrice(summary.subtotal)}</strong>
               </div>
               <div className="cart-summary-row">
-                <span>Estimated tax (18%)</span>
-                <strong>{formatPrice(estimatedTax)}</strong>
-              </div>
-              <div className="cart-summary-row cart-summary-row-total">
                 <span>Total</span>
                 <strong>{formatPrice(grandTotal)}</strong>
               </div>

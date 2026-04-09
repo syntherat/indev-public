@@ -18,8 +18,9 @@ const contactMessageRoutes = require("./routes/contactMessageRoutes");
 const { notFoundHandler, errorHandler } = require("./middlewares/errorHandler");
 
 const app = express();
+const isProduction = env.nodeEnv === "production";
 
-app.set("trust proxy", 1);
+app.set("trust proxy", isProduction ? 1 : false);
 
 app.use(helmet());
 app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
@@ -33,6 +34,7 @@ app.use(express.json());
 
 app.use(
   session({
+    proxy: isProduction,
     store: new PgSession({
       pool,
       tableName: "user_sessions",
@@ -45,8 +47,8 @@ app.use(
     rolling: true,
     cookie: {
       httpOnly: true,
-      sameSite: "lax",
-      secure: env.nodeEnv === "production",
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     },
   })
