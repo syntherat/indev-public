@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { createProductReview, fetchProductReviews } from "@/lib/reviewsApi";
@@ -36,8 +35,6 @@ function getDateLabel(value) {
 
 export default function ProductReviewsSection({ productName, rating, product }) {
   const { status, user } = useAuth();
-  const router = useRouter();
-  const pathname = usePathname();
   const formRef = useRef(null);
   const isAuthenticated = status === "authenticated";
 
@@ -48,6 +45,7 @@ export default function ProductReviewsSection({ productName, rating, product }) 
   const [selectedRating, setSelectedRating] = useState(5);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [reviewDisplayName, setReviewDisplayName] = useState("");
+  const [reviewEmail, setReviewEmail] = useState("");
   const [reviewTitle, setReviewTitle] = useState("");
   const [reviewBody, setReviewBody] = useState("");
   const [submitState, setSubmitState] = useState({ loading: false, message: "", error: "" });
@@ -55,13 +53,18 @@ export default function ProductReviewsSection({ productName, rating, product }) 
   useEffect(() => {
     if (!isAuthenticated) {
       setReviewDisplayName("");
+      setReviewEmail("");
       return;
     }
 
     if (!reviewDisplayName) {
       setReviewDisplayName(String(user?.name || "").trim());
     }
-  }, [isAuthenticated, reviewDisplayName, user?.name]);
+
+    if (!reviewEmail) {
+      setReviewEmail(String(user?.email || "").trim());
+    }
+  }, [isAuthenticated, reviewDisplayName, reviewEmail, user?.name, user?.email]);
 
   useEffect(() => {
     let isActive = true;
@@ -137,17 +140,11 @@ export default function ProductReviewsSection({ productName, rating, product }) 
     return counts;
   }, [reviews]);
 
-  const reviewHref = `/login?returnTo=${encodeURIComponent(pathname || `/products/${product?.slug || ""}`)}`;
   const displayRating = hoveredRating || selectedRating;
   const hasReviews = reviewCount > 0;
   const canReview = Boolean(product?.slug);
 
   async function handleOpenReviewForm() {
-    if (!isAuthenticated) {
-      router.push(reviewHref);
-      return;
-    }
-
     setIsFormOpen(true);
   }
 
@@ -155,8 +152,15 @@ export default function ProductReviewsSection({ productName, rating, product }) 
     event.preventDefault();
 
     if (!isAuthenticated) {
-      router.push(reviewHref);
-      return;
+      if (!String(reviewDisplayName || "").trim()) {
+        setSubmitState({ loading: false, message: "", error: "Please enter your name." });
+        return;
+      }
+
+      if (!String(reviewEmail || "").trim()) {
+        setSubmitState({ loading: false, message: "", error: "Please enter your email." });
+        return;
+      }
     }
 
     setSubmitState({ loading: true, message: "", error: "" });
@@ -168,6 +172,7 @@ export default function ProductReviewsSection({ productName, rating, product }) 
         title: reviewTitle,
         body: reviewBody,
         displayName: reviewDisplayName,
+        email: reviewEmail,
       });
 
       setSubmitState({ loading: false, message: payload?.message || "Review submitted for approval.", error: "" });
@@ -175,6 +180,7 @@ export default function ProductReviewsSection({ productName, rating, product }) 
       setReviewTitle("");
       setReviewBody("");
       setReviewDisplayName(String(user?.name || "").trim());
+      setReviewEmail(String(user?.email || "").trim());
       setSelectedRating(5);
       setHoveredRating(0);
     } catch (error) {
@@ -220,7 +226,7 @@ export default function ProductReviewsSection({ productName, rating, product }) 
             aria-controls="pdp-review-form"
             disabled={!canReview}
           >
-            {isAuthenticated ? "POST A REVIEW" : "LOGIN TO REVIEW"}
+            POST A REVIEW
           </button>
         </div>
       </div>
@@ -303,8 +309,28 @@ export default function ProductReviewsSection({ productName, rating, product }) 
                 />
               </label>
 
+              {!isAuthenticated ? (
+                <label className="pdp-review-form-field">
+                  <span>Email</span>
+                  <input
+                    type="email"
+                    placeholder="you@example.com"
+                    value={reviewEmail}
+                    onChange={(event) => setReviewEmail(event.target.value)}
+                  />
+                </label>
+              ) : null}
+
               <p className="pdp-review-form-note pdp-review-form-field-full">
-                Posted as <strong>{user?.name || "your account"}</strong>. Reviews are checked by the admin team before they appear publicly.
+                {isAuthenticated ? (
+                  <>
+                    Posted as <strong>{user?.name || "your account"}</strong>. Reviews are checked by the admin team before they appear publicly.
+                  </>
+                ) : (
+                  <>
+                    Reviews are checked by the admin team before they appear publicly.
+                  </>
+                )}
               </p>
             </div>
 

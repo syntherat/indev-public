@@ -3,19 +3,34 @@
 import { useMemo } from "react";
 import styles from "./TwinklingStarsField.module.css";
 
+function mulberry32(seed) {
+  let t = seed >>> 0;
+
+  return () => {
+    t += 0x6d2b79f5;
+    let r = Math.imul(t ^ (t >>> 15), t | 1);
+    r ^= r + Math.imul(r ^ (r >>> 7), r | 61);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function roundTo(value, digits = 3) {
+  return Number(value.toFixed(digits));
+}
+
 function createStars(count) {
   return Array.from({ length: count }, (_, index) => {
-    const seed = index + 1;
-    const randomA = Math.sin(seed * 91.73) * 10000;
-    const randomB = Math.sin(seed * 53.19) * 10000;
-    const randomC = Math.sin(seed * 11.41) * 10000;
-    const randomD = Math.sin(seed * 77.07) * 10000;
+    const random = mulberry32((index + 1) * 1664525);
+    const a = random();
+    const b = random();
+    const c = random();
+    const d = random();
 
-    const x = (randomA - Math.floor(randomA)) * 100;
-    const y = (randomB - Math.floor(randomB)) * 100;
-    const size = 1 + (randomC - Math.floor(randomC)) * 2.2;
-    const delay = (randomD - Math.floor(randomD)) * 6.5;
-    const duration = 3.8 + ((randomA - Math.floor(randomA)) + (randomC - Math.floor(randomC))) * 3.2;
+    const x = roundTo(a * 100);
+    const y = roundTo(b * 100);
+    const size = roundTo(1 + c * 2.2);
+    const delay = roundTo(d * 6.5);
+    const duration = roundTo(3.8 + (a + c) * 3.2);
 
     return {
       id: `star-${index}`,
@@ -24,7 +39,7 @@ function createStars(count) {
       size,
       delay,
       duration,
-      alpha: 0.34 + (randomB - Math.floor(randomB)) * 0.62,
+      alpha: roundTo(0.34 + b * 0.62),
     };
   });
 }

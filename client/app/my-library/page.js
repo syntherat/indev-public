@@ -6,7 +6,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Download, Search } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { fetchAccountOrders, fetchLibraryDownloadUrl } from "@/lib/accountApi";
+import { getProductsCatalog } from "@/lib/productsApi";
 import styles from "./page.module.css";
+
+const PRODUCT_FALLBACK_IMAGE = "/assets/product-fallback.svg";
 
 function formatDate(value) {
   if (!value) {
@@ -35,6 +38,7 @@ export default function MyLibraryPage() {
   const isAuthenticated = status === "authenticated" && Boolean(user);
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [catalogProducts, setCatalogProducts] = useState([]);
   const [errorNotice, setErrorNotice] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [downloadingKey, setDownloadingKey] = useState("");
@@ -81,12 +85,74 @@ export default function MyLibraryPage() {
     };
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setCatalogProducts([]);
+      return;
+    }
+
+    let isActive = true;
+
+    const loadCatalog = async () => {
+      try {
+        const payload = await getProductsCatalog();
+
+        if (!isActive) {
+          return;
+        }
+
+        setCatalogProducts(Array.isArray(payload?.products) ? payload.products : []);
+      } catch (_error) {
+        if (!isActive) {
+          return;
+        }
+
+        setCatalogProducts([]);
+      }
+    };
+
+    loadCatalog();
+
+    return () => {
+      isActive = false;
+    };
+  }, [isAuthenticated]);
+
+  const catalogLookup = useMemo(() => {
+    const map = new Map();
+
+    for (const product of catalogProducts) {
+      const productId = String(product?.id || "").trim().toLowerCase();
+      const slug = String(product?.slug || "").trim().toLowerCase();
+      const hrefSlug = String(product?.href || "")
+        .split("/")
+        .filter(Boolean)
+        .pop()
+        ?.toLowerCase();
+
+      if (productId) {
+        map.set(productId, product);
+      }
+
+      if (slug) {
+        map.set(slug, product);
+      }
+
+      if (hrefSlug) {
+        map.set(hrefSlug, product);
+      }
+    }
+
+    return map;
+  }, [catalogProducts]);
+
   const projects = useMemo(() => {
     const map = new Map();
 
     for (const order of orders) {
       for (const item of order?.items || []) {
         const key = toProjectKey(item);
+        const liveProduct = catalogLookup.get(String(item?.productId || item?.slug || "").toLowerCase()) || null;
         const current = map.get(key) || {
           key,
           productId: item?.productId || null,
@@ -99,6 +165,15 @@ export default function MyLibraryPage() {
           purchases: 0,
           lastPurchasedAt: order?.createdAt || null,
         };
+
+        if (liveProduct) {
+          current.name = liveProduct.name || current.name;
+          current.category = liveProduct.category || current.category;
+          current.image = liveProduct.image || current.image;
+          current.href = liveProduct.href || current.href;
+          current.slug = liveProduct.slug || current.slug;
+          current.imageAlt = liveProduct.imageAlt || current.imageAlt || liveProduct.name || current.name;
+        }
 
         current.unitsPurchased += Number(item?.quantity || 1);
         current.purchases += 1;
@@ -116,7 +191,7 @@ export default function MyLibraryPage() {
       const bTime = new Date(b.lastPurchasedAt || 0).getTime();
       return bTime - aTime;
     });
-  }, [orders]);
+  }, [orders, catalogLookup]);
 
   const filteredProjects = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
@@ -244,7 +319,15 @@ export default function MyLibraryPage() {
                     }
                   }}
                 >
-                  {project.image ? <img className={styles.cardImage} src={project.image} alt="" /> : <div className={styles.imageFallback} />}
+                  <img
+                    className={styles.cardImage}
+                    src={project.image || PRODUCT_FALLBACK_IMAGE}
+                    alt={project.name || "Product image"}
+                    onError={(event) => {
+                      event.currentTarget.onerror = null;
+                      event.currentTarget.src = PRODUCT_FALLBACK_IMAGE;
+                    }}
+                  />
 
                   <div className={styles.cardBody}>
                     <p className={styles.cardTag}>{project.category}</p>

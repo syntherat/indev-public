@@ -1,0 +1,29 @@
+<svg width="1200" height="750" viewBox="0 0 1200 750" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="140" y1="60" x2="1070" y2="690" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111529" />
+      <stop offset="1" stop-color="#05070F" />
+    </linearGradient>
+    <linearGradient id="line" x1="300" y1="430" x2="920" y2="310" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7EE0FF" stop-opacity="0.95" />
+      <stop offset="1" stop-color="#9F8DFF" stop-opacity="0.95" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="750" fill="#03050B" />
+  <rect x="56" y="56" width="1088" height="638" rx="34" fill="url(#bg)" stroke="rgba(255,255,255,0.12)" />
+
+  <rect x="118" y="128" width="964" height="66" rx="14" fill="rgba(255,255,255,0.06)" />
+  <rect x="152" y="151" width="150" height="20" rx="10" fill="rgba(255,255,255,0.24)" />
+
+  <rect x="118" y="226" width="336" height="288" rx="22" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" />
+  <rect x="478" y="226" width="604" height="288" rx="22" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" />
+
+  <path d="M180 454C237 401 301 372 363 385C412 395 444 429 482 441C557 464 656 436 786 379C830 359 869 339 908 325" stroke="url(#line)" stroke-width="8" stroke-linecap="round" />
+
+  <rect x="118" y="540" width="460" height="28" rx="14" fill="rgba(255,255,255,0.16)" />
+  <rect x="118" y="585" width="332" height="20" rx="10" fill="rgba(255,255,255,0.11)" />
+
+  <rect x="934" y="560" width="148" height="48" rx="24" fill="rgba(255,255,255,0.09)" />
+  <text x="1008" y="592" text-anchor="middle" font-family="Outfit, sans-serif" font-size="20" fill="#D5DEF6" letter-spacing="0.08em">NO IMAGE</text>
+</svg>

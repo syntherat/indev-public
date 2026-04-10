@@ -546,10 +546,22 @@ async function fetchJson(url) {
 }
 
 function normalizeGalleryImages(rawGallery, fallbackImage) {
+  function toImageUrl(item) {
+    if (typeof item === "string") {
+      return item.trim();
+    }
+
+    if (item && typeof item === "object") {
+      return String(item.url || item.src || item.image || "").trim();
+    }
+
+    return "";
+  }
+
   let images = [];
 
   if (Array.isArray(rawGallery)) {
-    images = rawGallery.map((item) => String(item || "").trim()).filter(Boolean);
+    images = rawGallery.map(toImageUrl).filter(Boolean);
   } else if (typeof rawGallery === "string") {
     const trimmed = rawGallery.trim();
 
@@ -557,7 +569,7 @@ function normalizeGalleryImages(rawGallery, fallbackImage) {
       try {
         const parsed = JSON.parse(trimmed);
         if (Array.isArray(parsed)) {
-          images = parsed.map((item) => String(item || "").trim()).filter(Boolean);
+          images = parsed.map(toImageUrl).filter(Boolean);
         }
       } catch (_error) {
         images = [];
@@ -584,14 +596,69 @@ function normalizeGalleryImages(rawGallery, fallbackImage) {
   return images.slice(0, 6);
 }
 
+function normalizeGalleryVideos(rawVideos) {
+  function toVideoUrl(item) {
+    if (typeof item === "string") {
+      return item.trim();
+    }
+
+    if (item && typeof item === "object") {
+      return String(item.url || item.src || item.video || item.source || "").trim();
+    }
+
+    return "";
+  }
+
+  let videos = [];
+
+  if (Array.isArray(rawVideos)) {
+    videos = rawVideos.map(toVideoUrl).filter(Boolean);
+  } else if (typeof rawVideos === "string") {
+    const trimmed = rawVideos.trim();
+
+    if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) {
+          videos = parsed.map(toVideoUrl).filter(Boolean);
+        }
+      } catch (_error) {
+        videos = [];
+      }
+    }
+
+    if (videos.length === 0 && trimmed) {
+      const byLines = trimmed.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+
+      videos =
+        byLines.length === 1 && byLines[0].includes(",")
+          ? byLines[0].split(",").map((item) => item.trim()).filter(Boolean)
+          : byLines;
+    }
+  }
+
+  return videos.slice(0, 6);
+}
+
 function normalizeProductGallery(product) {
   if (!product || typeof product !== "object") {
     return product;
   }
 
+  const primaryImage = typeof product.image === "string" ? product.image.trim() : "";
+  const galleryImages = normalizeGalleryImages(product.galleryImages, primaryImage);
+  const galleryVideos = normalizeGalleryVideos(product.galleryVideos);
+  const slug = String(product.slug || "").trim();
+  const href = String(product.href || "").trim();
+  const hrefSlug = href.split("/").filter(Boolean).pop() || slug;
+  const normalizedHref = hrefSlug ? `/products/${hrefSlug}` : "/products";
+
   return {
     ...product,
-    galleryImages: normalizeGalleryImages(product.galleryImages, product.image),
+    href: normalizedHref,
+    image: primaryImage || galleryImages[0] || "",
+    galleryImages,
+    galleryVideos,
   };
 }
 
@@ -630,23 +697,23 @@ export async function getProductsCatalog({ q = "", category = "" } = {}) {
 }
 
 export async function getFeaturedProducts() {
+  const fallbackFeatured = defaultProducts
+    .filter((product) => product.showInFeatured || product.isFeatured)
+    .map((product) => normalizeProductGallery(product));
+
   try {
     const payload = await fetchJson(`${API_BASE_URL}/api/products/featured`);
     const data = Array.isArray(payload?.data) ? payload.data.map(normalizeProductGallery) : [];
 
-    if (data.length > 0) {
-      return data;
-    }
-
-    return defaultProducts.filter((product) => product.isFeatured);
+    return data.length > 0 ? data : fallbackFeatured;
   } catch (error) {
     console.error("Failed to fetch featured products", error);
-    return defaultProducts.filter((product) => product.isFeatured);
+    return fallbackFeatured;
   }
 }
 
 export async function getProductBySlug(slug) {
-  const safeSlug = String(slug || "").trim();
+  const safeSlug = String(slug || "").trim().toLowerCase();
 
   if (!safeSlug) {
     return null;
@@ -669,14 +736,28 @@ export async function getProductBySlug(slug) {
       return product;
     }
 
-    return fallback || null;
+    const { products = [] } = await getProductsCatalog();
+    const catalogMatch = products.find((item) => {
+      const itemSlug = String(item?.slug || "").trim();
+      const itemHrefSlug = String(item?.href || "").split("/").filter(Boolean).pop();
+      return itemSlug === safeSlug || itemHrefSlug === safeSlug;
+    });
+
+    return catalogMatch || fallback || null;
   } catch (error) {
-    if (!fallback) {
+    const { products = [] } = await getProductsCatalog();
+    const catalogMatch = products.find((item) => {
+      const itemSlug = String(item?.slug || "").trim();
+      const itemHrefSlug = String(item?.href || "").split("/").filter(Boolean).pop();
+      return itemSlug === safeSlug || itemHrefSlug === safeSlug;
+    });
+
+    if (!catalogMatch && !fallback) {
       console.error("Failed to fetch product by slug", error);
       return null;
     }
 
-    return fallback;
+    return catalogMatch || fallback;
   }
 }
 

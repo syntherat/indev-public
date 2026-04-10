@@ -1,23 +1,238 @@
 .root {
+  position: relative;
   min-height: 100vh;
+  background: #04060d;
+  color: #edf0f8;
+  padding: 112px 1.1rem 4.5rem;
+}
+
+.heroBackdrop {
+  position: absolute;
+  inset: 0 0 auto;
+  height: min(54vh, 460px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92) brightness(0.45);
+}
+
+.heroFade {
+  position: absolute;
+  inset: 0;
   background:
-    radial-gradient(circle at 78% 4%, rgba(255, 99, 177, 0.12), rgba(0, 0, 0, 0) 34%),
-    radial-gradient(circle at 14% 0%, rgba(114, 153, 255, 0.14), rgba(0, 0, 0, 0) 36%),
-    #090b13;
-  color: #f5f7ff;
-  padding: 120px 1rem 4rem;
+    linear-gradient(180deg, rgba(4, 6, 13, 0.12) 0%, rgba(4, 6, 13, 0.74) 58%, #04060d 100%),
+    radial-gradient(circle at 22% 22%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 42%);
+}
+
+.frame {
+  position: relative;
+  z-index: 1;
+  width: min(1460px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: clamp(1rem, 2vw, 1.4rem);
+  align-items: start;
 }
 
 .article {
-  width: min(860px, 100%);
-  margin: 0 auto;
-  border-radius: 26px;
+  padding: 0;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  font-size: 0.75rem;
+  color: rgba(226, 233, 252, 0.58);
+}
+
+.breadcrumbs a {
+  color: rgba(226, 233, 252, 0.75);
+  text-decoration: none;
+}
+
+.header {
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.category {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(221, 228, 247, 0.63);
+}
+
+.header h1 {
+  margin: 0.62rem 0 0;
+  font-size: clamp(2.05rem, 4.6vw, 3.28rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: #f6f8ff;
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+}
+
+.excerpt {
+  margin: 1rem 0 0;
+  width: min(700px, 100%);
+  color: rgba(227, 233, 249, 0.82);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.56;
+}
+
+.metaRow {
+  margin-top: 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.95rem;
+  align-items: center;
+  color: rgba(220, 228, 247, 0.67);
+  font-size: 0.86rem;
+}
+
+.authorRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.58rem;
+  margin-right: 0.35rem;
+}
+
+.authorAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.authorFallback {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(124, 92, 255, 0.92), rgba(54, 209, 220, 0.92));
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.content {
+  margin-top: 1.35rem;
+}
+
+.markdownContent {
+  color: rgba(231, 236, 252, 0.91);
+  line-height: 1.9;
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+}
+
+.markdownContent h1,
+.markdownContent h2,
+.markdownContent h3 {
+  margin: 1.75rem 0 0.8rem;
+  color: #f8faff;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+
+.markdownContent h2 {
+  font-size: clamp(1.54rem, 3vw, 2.12rem);
+}
+
+.markdownContent h3 {
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+}
+
+.markdownContent p {
+  margin: 0.9rem 0 0;
+}
+
+.markdownContent ul,
+.markdownContent ol {
+  margin: 1rem 0 0;
+  padding-left: 1.4rem;
+}
+
+.markdownContent li {
+  margin: 0.35rem 0;
+}
+
+.markdownContent code {
+  padding: 0.16rem 0.34rem;
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.92em;
+}
+
+.markdownContent pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background: linear-gradient(180deg, rgba(14, 17, 27, 0.95), rgba(9, 11, 18, 0.98));
-  box-shadow:
-    0 20px 54px rgba(0, 0, 0, 0.52),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  padding: clamp(1.1rem, 2.5vw, 1.7rem);
+}
+
+.markdownContent pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.markdownContent a {
+  color: #9bc4ff;
+  text-decoration: underline;
+}
+
+.sidebar {
+  position: relative;
+  align-self: stretch;
+  min-height: 100%;
+  margin-top: clamp(15rem, 22vw, 19rem);
+}
+
+.sidebarCard {
+  position: sticky;
+  top: 5.2rem;
+  width: 100%;
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+  padding-left: 0.95rem;
+}
+
+.sidebarTitle {
+  margin: 0 0 0.88rem;
+  color: rgba(232, 237, 252, 0.86);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+}
+
+.tocLink {
+  display: block;
+  text-decoration: none;
+  color: rgba(188, 198, 226, 0.78);
+  font-size: 0.92rem;
+  line-height: 1.42;
+  margin-bottom: 0.7rem;
+  transition: color 120ms ease;
+}
+
+.tocLink:hover {
+  color: #f3f6ff;
+}
+
+.footerLinkRow {
+  position: relative;
+  z-index: 1;
+  width: min(1460px, 100%);
+  margin: 1.5rem auto 0;
 }
 
 .backLink {
@@ -32,47 +247,42 @@
   padding: 0.35rem 0.85rem;
 }
 
-.category {
-  margin: 1rem 0 0;
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(240, 244, 255, 0.64);
+@media (max-width: 1080px) {
+  .frame {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: relative;
+    top: auto;
+    margin-top: 1.2rem;
+  }
+
+  .sidebarCard {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: auto;
+    max-height: none;
+    overflow: visible;
+    margin-top: 1.2rem;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-left: 0;
+    padding-top: 1rem;
+  }
 }
 
-.article h1 {
-  margin: 0.62rem 0 0;
-  font-size: clamp(1.9rem, 4vw, 3rem);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-}
+@media (max-width: 640px) {
+  .root {
+    padding-top: 98px;
+  }
 
-.metaRow {
-  margin-top: 0.72rem;
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  color: rgba(240, 244, 255, 0.72);
-  font-size: 0.88rem;
-}
+  .heroBackdrop {
+    height: 300px;
+  }
 
-.heroImage {
-  margin-top: 1rem;
-  width: 100%;
-  max-height: 460px;
-  object-fit: cover;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.content {
-  margin-top: 1rem;
-  display: grid;
-  gap: 0.9rem;
-}
-
-.content p {
-  margin: 0;
-  line-height: 1.78;
-  color: rgba(241, 245, 255, 0.86);
+  .section p {
+    line-height: 1.8;
+  }
 }

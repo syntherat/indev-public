@@ -38,6 +38,7 @@ function mapProductRow(row) {
     imageAlt: row.image_alt,
     href: row.href,
     displayOrder: row.display_order,
+    galleryVideos: row.gallery_videos || [],
     isHidden: row.is_hidden || false,
   };
 }
@@ -64,7 +65,7 @@ function buildFilters({ q, category, section }) {
   }
 
   if (section === "featured") {
-    clauses.push("show_in_featured = true");
+    clauses.push("(show_in_featured = true OR is_featured = true)");
   }
 
   return {
@@ -115,7 +116,8 @@ async function getAllProducts({ q, category, section } = {}) {
         image_alt,
         href,
         display_order,
-        is_hidden
+            gallery_videos,
+            is_hidden
       FROM products
       ${filters.where}
       ORDER BY display_order ASC, created_at ASC
@@ -173,12 +175,12 @@ async function getProductBySlug(slug) {
         image,
         image_alt,
         href,
-        display_order
         display_order,
-        is_hidden
+            gallery_videos,
+            is_hidden
       FROM products
-      WHERE slug = $1
-         OR regexp_replace(COALESCE(href, ''), '^.*/', '') = $1
+      WHERE LOWER(slug) = LOWER($1)
+        OR LOWER(regexp_replace(COALESCE(href, ''), '^.*/', '')) = LOWER($1)
       LIMIT 1
     `,
     [slug]

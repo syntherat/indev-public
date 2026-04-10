@@ -4,6 +4,8 @@ import { CheckCircle2 } from "lucide-react";
 import AddToCartButton from "@/components/cart/AddToCartButton";
 import usePurchasedProductIds from "@/components/purchases/usePurchasedProductIds";
 
+const PRODUCT_FALLBACK_IMAGE = "/assets/product-fallback.svg";
+
 function parsePrice(value) {
   if (!value) {
     return Number.POSITIVE_INFINITY;
@@ -85,11 +87,15 @@ export default function PurchaseAwareProductsGrid({ products = [], sort = "featu
                   <CheckCircle2 size={14} strokeWidth={2.4} /> Already in Library
                 </span>
               ) : null}
-              {product.image ? (
-                <img src={product.image} alt={product.imageAlt || product.name} loading="lazy" />
-              ) : (
-                <div className="products-media-fallback" aria-hidden="true" />
-              )}
+              <img
+                src={product.image || PRODUCT_FALLBACK_IMAGE}
+                alt={product.imageAlt || product.name}
+                loading="lazy"
+                onError={(event) => {
+                  event.currentTarget.onerror = null;
+                  event.currentTarget.src = PRODUCT_FALLBACK_IMAGE;
+                }}
+              />
             </a>
 
             <div className="products-card-body">
@@ -99,7 +105,7 @@ export default function PurchaseAwareProductsGrid({ products = [], sort = "featu
                 </a>
               </h3>
               <p className="products-page-category">{product.category}</p>
-              <p>{product.description}</p>
+              <p>{product.productSubtitle || product.description || "No subtitle available."}</p>
 
               <div className="products-page-meta">
                 <strong>{formatPrice(product.price)}</strong>

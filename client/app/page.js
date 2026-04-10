@@ -3,8 +3,10 @@ import FeaturedProductsSection from "@/components/FeaturedProductsSection";
 import ServiceGraphic from "@/components/ServiceGraphic";
 import SoftwareProductsShowcase from "@/components/SoftwareProductsShowcase";
 import TwinklingStarsField from "@/components/TwinklingStarsField";
+import { getFeaturedProducts } from "@/lib/productsApi";
 
 export default async function HomePage() {
+  const featuredProducts = await getFeaturedProducts();
   const services = [
     {
       eyebrow: "Website Design",
@@ -132,7 +134,7 @@ export default async function HomePage() {
         </section>
 
         <section className="content-section featured-section" id="section-3" data-reveal>
-          <FeaturedProductsSection />
+          <FeaturedProductsSection products={featuredProducts} />
         </section>
 
         <section className="content-section booking-section" id="section-4" data-reveal>

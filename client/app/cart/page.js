@@ -9,6 +9,7 @@ import { useCart } from "@/components/cart/CartProvider";
 import { verifyCheckout } from "@/lib/cartApi";
 
 const CHECKOUT_SUCCESS_STORAGE_KEY = "indev.checkout.success";
+const PRODUCT_FALLBACK_IMAGE = "/assets/product-fallback.svg";
 let razorpayScriptPromise = null;
 
 function formatPrice(value) {
@@ -175,11 +176,15 @@ export default function CartPage() {
               {items.map((item) => (
                 <article key={item.productId} className="cart-item-card">
                   <a href={item.href || `/products/${item.slug || ""}`} className="cart-item-media-link">
-                    {item.image ? (
-                      <img src={item.image} alt={item.imageAlt || item.name} className="cart-item-image" />
-                    ) : (
-                      <div className="cart-item-image-fallback" />
-                    )}
+                    <img
+                      src={item.image || PRODUCT_FALLBACK_IMAGE}
+                      alt={item.imageAlt || item.name}
+                      className="cart-item-image"
+                      onError={(event) => {
+                        event.currentTarget.onerror = null;
+                        event.currentTarget.src = PRODUCT_FALLBACK_IMAGE;
+                      }}
+                    />
                   </a>
 
                   <div className="cart-item-body">

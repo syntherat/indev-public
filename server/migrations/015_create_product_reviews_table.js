@@ -17,7 +17,6 @@ exports.up = (pgm) => {
     },
     user_id: {
       type: "uuid",
-      notNull: true,
       references: "users(id)",
       onDelete: "cascade",
     },

@@ -104,7 +104,7 @@ async function createReview({ productId, productSlug, userId, userName, userEmai
     [
       productId,
       productSlug,
-      userId,
+      userId || null,
       userName,
       userEmail || null,
       rating,

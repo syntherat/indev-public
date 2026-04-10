@@ -5,6 +5,8 @@ import ProductFaqAccordion from "@/components/ProductFaqAccordion";
 import ProductDetailPurchaseActions from "@/components/products/ProductDetailPurchaseActions";
 import ProductReviewsSection from "@/components/products/ProductReviewsSection";
 
+export const dynamic = "force-dynamic";
+
 const FALLBACK_PRODUCT_SLUGS = ["commerce-flow", "pulse-mobile", "ops-atlas", "studio-custom"];
 
 export async function generateStaticParams() {
@@ -91,7 +93,8 @@ function formatPrice(value) {
 }
 
 export default async function ProductDetailPage({ params }) {
-  const product = await getProductBySlug(params?.slug);
+  const resolvedParams = await params;
+  const product = await getProductBySlug(resolvedParams?.slug);
 
   if (!product) {
     notFound();
@@ -99,6 +102,10 @@ export default async function ProductDetailPage({ params }) {
 
   const normalizedGallery = Array.isArray(product.galleryImages)
     ? product.galleryImages.filter(Boolean).slice(0, 6)
+    : [];
+
+  const normalizedVideos = Array.isArray(product.galleryVideos)
+    ? product.galleryVideos.filter(Boolean).slice(0, 6)
     : [];
 
   const gallery = normalizedGallery.length > 0
@@ -144,7 +151,7 @@ export default async function ProductDetailPage({ params }) {
       <section className="pdp-hero-wrap">
         <div className="products-page-shell pdp-hero-grid">
           <div className="pdp-gallery-card">
-            <ProductMediaGallery images={gallery} alt={product.imageAlt || product.name} />
+            <ProductMediaGallery images={gallery} videos={normalizedVideos} alt={product.imageAlt || product.name} />
           </div>
 
           <div className="pdp-summary-card">
@@ -157,7 +164,8 @@ export default async function ProductDetailPage({ params }) {
               {rating !== null ? <span className="pdp-rating-chip">★ {rating.toFixed(1)}</span> : null}
             </div>
 
-            <p className="pdp-description">{product.detail || product.description}</p>
+            <p className="pdp-description">{product.description || product.detail}</p>
+            {product.detail && product.detail !== product.description ? <p className="pdp-detail-copy">{product.detail}</p> : null}
 
             <div className="pdp-price-row">
               <strong>{formatPrice(product.price)}</strong>

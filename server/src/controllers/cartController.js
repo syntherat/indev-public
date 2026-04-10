@@ -3,6 +3,7 @@ const crypto = require("crypto");
 const cartModel = require("../models/cartModel");
 const accountModel = require("../models/accountModel");
 const env = require("../config/env");
+const { sendPurchaseInvoiceEmail } = require("../utils/purchaseInvoiceEmails");
 
 function getCheckoutSummary(items) {
   const summary = cartModel.summarizeCart(items);
@@ -243,6 +244,20 @@ const verifyCheckout = asyncHandler(async (req, res) => {
     paymentStatus: "Paid",
     isTestPurchase: false,
   });
+
+  try {
+    await sendPurchaseInvoiceEmail({
+      customerEmail: req.user?.email,
+      customerName: req.user?.name || req.user?.displayName || "Customer",
+      orderNumber: order?.orderNumber,
+      paymentId: razorpayPaymentId,
+      checkedOutAt: new Date().toISOString(),
+      items,
+      summary,
+    });
+  } catch (error) {
+    console.error("Failed to send purchase invoice email", error);
+  }
 
   return res.status(200).json({
     success: true,

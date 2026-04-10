@@ -7,6 +7,7 @@ import { fetchAccountOrders, fetchAccountProfile, updateAccountProfile } from "@
 import styles from "./page.module.css";
 
 const NAV_ITEMS = ["My Profile", "My Orders"];
+const PRODUCT_FALLBACK_IMAGE = "/assets/product-fallback.svg";
 
 function buildProfileFromUser() {
   return {
@@ -296,11 +297,15 @@ export default function AccountPage() {
                       {(order.items || []).map((item, index) => (
                         <div key={`${order.id}-${item.productId || item.slug || index}`} className={styles.itemRow}>
                           <div className={styles.itemThumbWrap}>
-                            {item.image ? (
-                              <img src={item.image} alt="" className={styles.itemThumb} />
-                            ) : (
-                              <div className={styles.itemThumbFallback} />
-                            )}
+                            <img
+                              src={item.image || PRODUCT_FALLBACK_IMAGE}
+                              alt={item.name || "Product image"}
+                              className={styles.itemThumb}
+                              onError={(event) => {
+                                event.currentTarget.onerror = null;
+                                event.currentTarget.src = PRODUCT_FALLBACK_IMAGE;
+                              }}
+                            />
                             <span className={styles.itemQty}>{item.quantity || 1}</span>
                           </div>
 

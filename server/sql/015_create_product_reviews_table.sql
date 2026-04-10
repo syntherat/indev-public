@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS product_reviews (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
   product_slug TEXT NOT NULL,
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
   user_name TEXT NOT NULL,
   user_email TEXT,
   rating INTEGER NOT NULL,
