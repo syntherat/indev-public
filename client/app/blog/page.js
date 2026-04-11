@@ -72,38 +72,45 @@ export default async function BlogPage() {
       </section>
 
       <section className={styles.postsSection}>
-        <div className={styles.postsGrid}>
-          {posts.map((post) => (
-            <article key={post.slug} className={styles.postCard}>
-              <Link href={`/blog/${post.slug}`} className={styles.mediaLink}>
-                <img src={post.image} alt={post.imageAlt} className={styles.media} loading="lazy" />
-              </Link>
+        {posts.length === 0 ? (
+          <div className={styles.comingSoon}>
+            <h2>Blogs are coming soon</h2>
+            <p>We're working on some great content. Check back soon!</p>
+          </div>
+        ) : (
+          <div className={styles.postsGrid}>
+            {posts.map((post) => (
+              <article key={post.slug} className={styles.postCard}>
+                <Link href={`/blog/${post.slug}`} className={styles.mediaLink}>
+                  <img src={post.image} alt={post.imageAlt} className={styles.media} loading="lazy" />
+                </Link>
 
-              <div className={styles.postBody}>
-                <p className={styles.metaTop}>{post.tag}</p>
-                <h2>
-                  <Link href={`/blog/${post.slug}`} className={styles.titleLink}>
-                    {post.title}
-                  </Link>
-                </h2>
-                <p className={styles.excerpt}>{post.excerpt}</p>
+                <div className={styles.postBody}>
+                  <p className={styles.metaTop}>{post.tag}</p>
+                  <h2>
+                    <Link href={`/blog/${post.slug}`} className={styles.titleLink}>
+                      {post.title}
+                    </Link>
+                  </h2>
+                  <p className={styles.excerpt}>{post.excerpt}</p>
 
-                <div className={styles.authorRow}>
-                  {post.author?.avatar ? (
-                    <img src={post.author.avatar} alt={post.author.name} className={styles.authorAvatar} />
-                  ) : null}
-                  <div>
-                    <p className={styles.authorName}>{post.author?.name || "Indev Team"}</p>
-                    <div className={styles.metaBottom}>
-                      <span>{post.publishedAt}</span>
-                      <span>{post.readTime}</span>
+                  <div className={styles.authorRow}>
+                    {post.author?.avatar ? (
+                      <img src={post.author.avatar} alt={post.author.name} className={styles.authorAvatar} />
+                    ) : null}
+                    <div>
+                      <p className={styles.authorName}>{post.author?.name || "Indev Team"}</p>
+                      <div className={styles.metaBottom}>
+                        <span>{post.publishedAt}</span>
+                        <span>{post.readTime}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </article>
-          ))}
-        </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );

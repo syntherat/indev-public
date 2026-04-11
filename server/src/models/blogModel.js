@@ -1,8 +1,8 @@
 const db = require("../config/db");
 
 const AUTHOR_AVATARS = {
-  "Sounak Pal": "/assets/blog-authors/sounak-pal.svg",
-  "Sourav Kumar": "/assets/blog-authors/sourav-kumar.svg",
+  "Sounak Pal": "/sounak_pal_img.png",
+  "Sourav Kumar": "/sourav_kumar_img.png",
 };
 
 function mapBlogRow(row) {
