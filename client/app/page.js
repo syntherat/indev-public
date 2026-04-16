@@ -1,3 +1,4 @@
+import Link from "next/link";
 import BlackHoleBackground from "@/components/BlackHoleBackground";
 import FeaturedProductsSection from "@/components/FeaturedProductsSection";
 import ServiceGraphic from "@/components/ServiceGraphic";
@@ -60,12 +61,12 @@ export default async function HomePage() {
             </p>
 
             <div className="hero-actions">
-              <a className="hero-btn hero-btn-primary" href="#section-1">
+              <Link className="hero-btn hero-btn-primary" href="/contact">
                 Get in touch
-              </a>
-              <a className="hero-btn hero-btn-secondary" href="#section-2">
+              </Link>
+              <Link className="hero-btn hero-btn-secondary" href="/products">
                 View services
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -100,7 +101,6 @@ export default async function HomePage() {
                       <div className="service-visual-shell">
                         <div className="service-visual-topbar">
                           <span>{service.eyebrow}</span>
-                          <span className="service-visual-badge">Preview</span>
                         </div>
 
                         <div className="service-visual-stage">

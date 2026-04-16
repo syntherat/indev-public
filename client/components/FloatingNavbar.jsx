@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowUpRight,
-  BookOpen,
   ChevronDown,
   Compass,
   FolderOpen,
@@ -15,6 +14,7 @@ import {
   Link2,
   ListChecks,
   LogIn,
+  Mail,
   Monitor,
   PhoneCall,
   Scale,
@@ -23,6 +23,7 @@ import {
   Trophy,
   Twitter,
   User,
+  Youtube,
   FileText,
 } from "lucide-react";
 import styles from "./FloatingNavbar.module.css";
@@ -34,6 +35,9 @@ const navItems = [
   { id: "products", label: "Products", href: "/products" },
   { id: "blog", label: "Blog", href: "/blog" },
 ];
+
+// Temporary toggle: set to true to show the portfolio dropdown in desktop nav again.
+const SHOW_DESKTOP_PORTFOLIO_MENU = false;
 
 const portfolioMenuCards = [
   {
@@ -61,46 +65,57 @@ const portfolioMenuCards = [
 
 const moreShowcaseCards = [
   {
-    id: "guestbook",
-    title: "Guestbook",
-    description: "Leave a quick note or testimonial.",
-    href: "/account",
+    id: "contact",
+    title: "Contact",
+    description: "Start a project conversation.",
+    href: "/contact",
+    image:
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
   },
   {
-    id: "bucket-list",
-    title: "Bucket List",
-    description: "A peek into projects and experiments.",
-    href: "/products",
+    id: "blog",
+    title: "Blog",
+    description: "Read insights, process notes, and ideas.",
+    href: "/blog",
+    image:
+      "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
 const moreQuickLinks = [
   {
-    id: "links",
-    title: "Links",
-    description: "Shortcuts to key pages.",
-    href: "/products",
+    id: "email",
+    title: "Email",
+    description: "Drop us a message anytime.",
+    href: "mailto:hello@indevdigital.com",
+    icon: Mail,
   },
   {
-    id: "uses",
-    title: "Uses",
-    description: "Tools and stack behind the work.",
-    href: "/profile",
+    id: "linkedin",
+    title: "LinkedIn",
+    description: "Connect with us on LinkedIn.",
+    href: "https://www.linkedin.com/company/indevdgtl/",
+    icon: Linkedin,
   },
   {
-    id: "attribution",
-    title: "Attribution",
-    description: "How this experience is crafted.",
-    href: "/account",
+    id: "youtube",
+    title: "YouTube",
+    description: "Watch videos and updates.",
+    href: "https://www.youtube.com/@IndevDigital",
+    icon: Youtube,
   },
 ];
+
+// Temporary toggle: set to true to show the portfolio/projects item in mobile nav again.
+const SHOW_MOBILE_PORTFOLIO_LINK = false;
 
 const mobilePageLinks = [
   { id: "home", label: "Home", href: "/", icon: Home },
   { id: "about", label: "About", href: "/profile", icon: User },
-  { id: "projects", label: "Projects", href: "/products", icon: FolderOpen },
+  ...(SHOW_MOBILE_PORTFOLIO_LINK
+    ? [{ id: "projects", label: "Projects", href: "/products", icon: FolderOpen }]
+    : []),
   { id: "blog", label: "Blog", href: "/blog", icon: FileText },
-  { id: "guestbook", label: "Guestbook", href: "/account", icon: BookOpen },
   { id: "bucket-list", label: "Bucket List", href: "/products", icon: ListChecks },
   { id: "book-call", label: "Book a call", href: "/contact", icon: PhoneCall },
   { id: "uses", label: "Uses", href: "/profile", icon: Monitor },
@@ -514,28 +529,31 @@ export default function FloatingNavbar() {
               {item.label}
             </Link>
           ))}
-          <button
-            type="button"
-            className={`${styles.linkButton} ${openMenu === "portfolio" ? styles.moreTriggerActive : ""}`}
-            onMouseEnter={() => openMenuPanel("portfolio")}
-            onPointerEnter={() => openMenuPanel("portfolio")}
-            onFocus={() => openMenuPanel("portfolio")}
-            onBlur={closeMenuSoon}
-            onClick={() => setOpenMenu((prev) => (prev === "portfolio" ? null : "portfolio"))}
-            onKeyDown={(event) => {
-              if (event.key === "Escape") {
-                setOpenMenu(null);
-              }
-            }}
-            aria-haspopup="true"
-            aria-expanded={openMenu === "portfolio"}
-            aria-controls="floating-portfolio-panel"
-          >
-            Portfolio
-            <span className={styles.chevron} aria-hidden="true">
-              <ChevronDown size={14} strokeWidth={2.4} className={styles.chevronIcon} />
-            </span>
-          </button>
+
+          {SHOW_DESKTOP_PORTFOLIO_MENU ? (
+            <button
+              type="button"
+              className={`${styles.linkButton} ${openMenu === "portfolio" ? styles.moreTriggerActive : ""}`}
+              onMouseEnter={() => openMenuPanel("portfolio")}
+              onPointerEnter={() => openMenuPanel("portfolio")}
+              onFocus={() => openMenuPanel("portfolio")}
+              onBlur={closeMenuSoon}
+              onClick={() => setOpenMenu((prev) => (prev === "portfolio" ? null : "portfolio"))}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  setOpenMenu(null);
+                }
+              }}
+              aria-haspopup="true"
+              aria-expanded={openMenu === "portfolio"}
+              aria-controls="floating-portfolio-panel"
+            >
+              Portfolio
+              <span className={styles.chevron} aria-hidden="true">
+                <ChevronDown size={14} strokeWidth={2.4} className={styles.chevronIcon} />
+              </span>
+            </button>
+          ) : null}
 
           <button
             type="button"
@@ -565,35 +583,37 @@ export default function FloatingNavbar() {
           </Link>
         </div>
 
-        <aside
-          id="floating-portfolio-panel"
-          className={`${styles.morePanel} ${styles.portfolioPanel} ${openMenu === "portfolio" ? styles.morePanelOpen : ""}`}
-          onMouseEnter={() => openMenuPanel("portfolio")}
-          onPointerEnter={() => openMenuPanel("portfolio")}
-          onKeyDown={(event) => {
-            if (event.key === "Escape") {
-              setOpenMenu(null);
-            }
-          }}
-          aria-hidden={openMenu !== "portfolio"}
-        >
-          <div className={styles.portfolioCardsRail}>
-            {portfolioMenuCards.map((card) => (
-              <Link
-                key={card.id}
-                href={card.href}
-                className={styles.portfolioFeatureCard}
-                style={{ backgroundImage: `linear-gradient(180deg, rgba(3, 4, 10, 0.15), rgba(3, 4, 10, 0.82)), url(${card.image})` }}
-              >
-                <span className={styles.portfolioFeatureOverlay} aria-hidden="true" />
-                <span className={styles.portfolioFeatureTitle}>{card.title}</span>
-                <span className={styles.portfolioArrow} aria-hidden="true">
-                  <ArrowUpRight size={17} strokeWidth={2.4} />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </aside>
+        {SHOW_DESKTOP_PORTFOLIO_MENU ? (
+          <aside
+            id="floating-portfolio-panel"
+            className={`${styles.morePanel} ${styles.portfolioPanel} ${openMenu === "portfolio" ? styles.morePanelOpen : ""}`}
+            onMouseEnter={() => openMenuPanel("portfolio")}
+            onPointerEnter={() => openMenuPanel("portfolio")}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                setOpenMenu(null);
+              }
+            }}
+            aria-hidden={openMenu !== "portfolio"}
+          >
+            <div className={styles.portfolioCardsRail}>
+              {portfolioMenuCards.map((card) => (
+                <Link
+                  key={card.id}
+                  href={card.href}
+                  className={styles.portfolioFeatureCard}
+                  style={{ backgroundImage: `linear-gradient(180deg, rgba(3, 4, 10, 0.15), rgba(3, 4, 10, 0.82)), url(${card.image})` }}
+                >
+                  <span className={styles.portfolioFeatureOverlay} aria-hidden="true" />
+                  <span className={styles.portfolioFeatureTitle}>{card.title}</span>
+                  <span className={styles.portfolioArrow} aria-hidden="true">
+                    <ArrowUpRight size={17} strokeWidth={2.4} />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </aside>
+        ) : null}
 
         <aside
           id="floating-more-panel"
@@ -609,7 +629,20 @@ export default function FloatingNavbar() {
         >
           <div className={styles.moreCardsRail}>
             {moreShowcaseCards.map((card) => (
-              <Link key={card.id} href={card.href} className={styles.moreFeatureCard}>
+              <Link
+                key={card.id}
+                href={card.href}
+                className={styles.moreFeatureCard}
+                style={
+                  card.image
+                    ? {
+                        backgroundImage: `linear-gradient(180deg, rgba(4, 6, 14, 0.1), rgba(4, 6, 14, 0.6)), url(${card.image})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }
+                    : undefined
+                }
+              >
                 <span className={styles.moreFeatureOverlay} aria-hidden="true" />
                 <span className={styles.moreFeatureTitle}>{card.title}</span>
                 <span className={styles.moreFeatureDescription}>{card.description}</span>
@@ -618,15 +651,27 @@ export default function FloatingNavbar() {
           </div>
 
           <div className={styles.moreLinksRail}>
-            {moreQuickLinks.map((item) => (
-              <Link key={item.id} href={item.href} className={styles.moreInfoCard}>
-                <span className={styles.moreInfoGlyph} aria-hidden="true">◻</span>
+            {moreQuickLinks.map((item) => {
+              const Icon = item.icon || Link2;
+
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className={styles.moreInfoCard}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+                >
+                  <span className={styles.moreInfoGlyph} aria-hidden="true">
+                    <Icon size={15} strokeWidth={2.2} />
+                  </span>
                 <span className={styles.moreInfoText}>
                   <span className={styles.moreInfoTitle}>{item.title}</span>
                   <span className={styles.moreInfoDescription}>{item.description}</span>
                 </span>
-              </Link>
-            ))}
+                </a>
+              );
+            })}
           </div>
         </aside>
 
@@ -636,12 +681,14 @@ export default function FloatingNavbar() {
               {item.label}
             </span>
           ))}
-          <span className={styles.linkButton}>
-            Portfolio
-            <span className={styles.chevron} aria-hidden="true">
-              <ChevronDown size={14} strokeWidth={2.4} className={styles.chevronIcon} />
+          {SHOW_DESKTOP_PORTFOLIO_MENU ? (
+            <span className={styles.linkButton}>
+              Portfolio
+              <span className={styles.chevron} aria-hidden="true">
+                <ChevronDown size={14} strokeWidth={2.4} className={styles.chevronIcon} />
+              </span>
             </span>
-          </span>
+          ) : null}
           <span className={styles.linkButton}>
             More
             <span className={styles.chevron} aria-hidden="true">
