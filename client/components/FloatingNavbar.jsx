@@ -68,17 +68,9 @@ const moreShowcaseCards = [
     id: "contact",
     title: "Contact",
     description: "Start a project conversation.",
-    href: "/contact",
+    href: "/contact/send-message",
     image:
       "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    id: "blog",
-    title: "Blog",
-    description: "Read insights, process notes, and ideas.",
-    href: "/blog",
-    image:
-      "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
@@ -117,7 +109,7 @@ const mobilePageLinks = [
     : []),
   { id: "blog", label: "Blog", href: "/blog", icon: FileText },
   { id: "bucket-list", label: "Bucket List", href: "/products", icon: ListChecks },
-  { id: "book-call", label: "Book a call", href: "/contact", icon: PhoneCall },
+  { id: "book-call", label: "Book a call", href: "/contact/book-call", icon: PhoneCall },
   { id: "uses", label: "Uses", href: "/profile", icon: Monitor },
   { id: "attribution", label: "Attribution", href: "/account", icon: Trophy },
   { id: "links", label: "Links", href: "/products", icon: Link2 },

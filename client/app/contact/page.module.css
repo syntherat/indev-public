@@ -49,6 +49,7 @@
   border-radius: 10px;
   border: 1px solid transparent;
   background: transparent;
+  text-decoration: none;
   color: rgba(245, 247, 255, 0.84);
   display: inline-flex;
   align-items: center;
