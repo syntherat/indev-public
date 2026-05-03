@@ -73,3 +73,5 @@ npm run dev
 - `GET /api/products/featured`: featured products from database
 
 Default API URL: `http://localhost:5000`
+
+Test test
